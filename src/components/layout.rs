@@ -1,11 +1,10 @@
-use crate::components::{Footer, Navbar};
+use crate::components::Footer;
 use crate::Route;
 use dioxus::prelude::*;
 
 #[component]
 pub fn Layout() -> Element {
     rsx! {
-        Navbar {},
         Outlet::<Route> {},
         Footer {},
     }

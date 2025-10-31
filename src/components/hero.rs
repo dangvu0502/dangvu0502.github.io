@@ -3,103 +3,88 @@ use dioxus::prelude::*;
 #[component]
 pub fn Hero() -> Element {
     rsx! {
-        section {
-            id: "home",
-            class: "min-h-screen md:h-screen flex items-center justify-center px-4 py-16 md:py-0 pt-20 md:pt-0",
+        header {
+            class: "py-12 md:py-16 border-b border-[#1f1f1f]",
 
             div {
-                class: "max-w-4xl w-full text-center",
+                class: "max-w-[1200px] mx-auto px-5 md:px-8",
 
-                // Name/Title
-                h1 {
-                    class: "text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 text-white",
-                    "Matt Dangvu"
-                }
-
-                // Subtitle
-                p {
-                    class: "text-lg sm:text-xl md:text-2xl text-gray-300 mb-3 md:mb-4",
-                    "Frontend Developer specializing in AI"
-                }
-
-                // Description
-                p {
-                    class: "text-sm sm:text-base md:text-lg text-gray-400 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed",
-                    "Building performant, AI-powered web experiences with modern frameworks. Currently exploring Rust and WebAssembly."
-                }
-
-                // CTA Buttons
+                // Avatar and Social Icons
                 div {
-                    class: "flex flex-col sm:flex-row gap-4 justify-center mb-8 md:mb-12",
+                    class: "flex flex-col md:flex-row justify-between items-center gap-6 md:gap-5 mb-10 md:mb-12",
 
-                    a {
-                        href: "#projects",
-                        class: "px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-lg hover:shadow-xl",
-                        "View Projects"
+                    // Avatar
+                    img {
+                        src: "https://via.placeholder.com/80",
+                        alt: "Matt Dangvu's avatar",
+                        class: "w-20 h-20 rounded-full border-2 border-[#c46846] object-cover"
+                    }
+
+                    // Social Icons
+                    div {
+                        class: "flex gap-3 md:gap-4",
+
+                        a {
+                            href: "https://twitter.com/yourusername",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            aria_label: "Twitter",
+                            class: "w-9 h-9 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md flex items-center justify-center text-lg hover:bg-[#2a2a2a] hover:border-[#2a2a2a] hover:-translate-y-0.5 transition-all duration-300",
+                            "𝕏"
+                        }
+
+                        a {
+                            href: "#",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            aria_label: "Lightning",
+                            class: "w-9 h-9 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md flex items-center justify-center text-lg hover:bg-[#2a2a2a] hover:border-[#2a2a2a] hover:-translate-y-0.5 transition-all duration-300",
+                            "⚡"
+                        }
+
+                        a {
+                            href: "https://linkedin.com/in/yourusername",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            aria_label: "LinkedIn",
+                            class: "w-9 h-9 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md flex items-center justify-center text-lg hover:bg-[#2a2a2a] hover:border-[#2a2a2a] hover:-translate-y-0.5 transition-all duration-300",
+                            "💼"
+                        }
+
+                        a {
+                            href: "mailto:your.email@example.com",
+                            aria_label: "Email",
+                            class: "w-9 h-9 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md flex items-center justify-center text-lg hover:bg-[#2a2a2a] hover:border-[#2a2a2a] hover:-translate-y-0.5 transition-all duration-300",
+                            "📧"
+                        }
+
+                        a {
+                            href: "#",
+                            aria_label: "Shop",
+                            class: "w-9 h-9 bg-[#1a1a1a] border border-[#2a2a2a] rounded-md flex items-center justify-center text-lg hover:bg-[#2a2a2a] hover:border-[#2a2a2a] hover:-translate-y-0.5 transition-all duration-300",
+                            "🛒"
+                        }
+                    }
+                }
+
+                // Bio Section
+                div {
+                    class: "mb-8",
+
+                    p {
+                        class: "mb-4 text-base leading-relaxed",
+                        dangerous_inner_html: "I'm <strong>Matt Dangvu</strong>, a fullstack developer and solofounder based in Japan and Canada."
+                    }
+
+                    p {
+                        class: "mb-4 text-base leading-relaxed",
+                        "Building performant, AI-powered web experiences with modern frameworks. Currently exploring Rust and WebAssembly."
                     }
 
                     a {
                         href: "#contact",
-                        class: "px-8 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors duration-200 border border-gray-700",
-                        "Contact Me"
-                    }
-                }
-
-                // Social Links
-                div {
-                    class: "flex gap-6 justify-center items-center",
-
-                    a {
-                        href: "https://github.com/yourusername",
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        class: "text-gray-400 hover:text-white transition-colors duration-200",
-                        aria_label: "GitHub",
-
-                        svg {
-                            class: "w-6 h-6",
-                            fill: "currentColor",
-                            view_box: "0 0 24 24",
-                            path {
-                                d: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-                            }
-                        }
-                    }
-
-                    a {
-                        href: "https://linkedin.com/in/yourusername",
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        class: "text-gray-400 hover:text-white transition-colors duration-200",
-                        aria_label: "LinkedIn",
-
-                        svg {
-                            class: "w-6 h-6",
-                            fill: "currentColor",
-                            view_box: "0 0 24 24",
-                            path {
-                                d: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                            }
-                        }
-                    }
-
-                    a {
-                        href: "mailto:your.email@example.com",
-                        class: "text-gray-400 hover:text-white transition-colors duration-200",
-                        aria_label: "Email",
-
-                        svg {
-                            class: "w-6 h-6",
-                            fill: "none",
-                            stroke: "currentColor",
-                            view_box: "0 0 24 24",
-                            path {
-                                stroke_linecap: "round",
-                                stroke_linejoin: "round",
-                                stroke_width: "2",
-                                d: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                            }
-                        }
+                        class: "inline-block mt-2.5 px-4 py-2 bg-[#c46846] text-white rounded-md font-medium hover:bg-[#b85a38] transition-colors duration-300",
+                        "Hire me 🚀"
                     }
                 }
             }

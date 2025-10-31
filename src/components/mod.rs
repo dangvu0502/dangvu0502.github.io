@@ -5,23 +5,23 @@
 mod hero;
 pub use hero::Hero;
 
-mod navbar;
-pub use navbar::Navbar;
-
 mod layout;
 pub use layout::Layout;
 
 mod footer;
 pub use footer::Footer;
 
-mod project_card;
-pub use project_card::{Project, ProjectCard};
+mod recent_project_card;
+pub use recent_project_card::{RecentProject, RecentProjectCard};
+
+mod recent_projects;
+pub use recent_projects::RecentProjects;
+
+mod work_experience;
+pub use work_experience::{WorkExperience, WorkExperienceSection};
+
+mod oss_contributions;
+pub use oss_contributions::{OSSContribution, OSSContributionsSection};
 
 mod projects;
-pub use projects::Projects;
-
-mod skills;
-pub use skills::Skills;
-
-mod contact;
-pub use contact::Contact;
+pub use projects::{Project, ProjectsSection};

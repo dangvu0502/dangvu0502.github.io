@@ -1,17 +1,17 @@
 use dioxus::prelude::*;
 
 #[derive(Clone, PartialEq, Props)]
-pub struct Project {
-    pub name: String,
-    pub description: String,
+pub struct OSSContribution {
+    pub repository: String,
+    pub pr_number: String,
     pub link: Option<String>,
 }
 
 #[component]
-pub fn ProjectsSection(projects: Vec<Project>) -> Element {
+pub fn OSSContributionsSection(contributions: Vec<OSSContribution>) -> Element {
     rsx! {
         section {
-            id: "projects",
+            id: "oss-contributions",
             class: "py-12 md:py-20 border-b border-[#1f1f1f]",
 
             div {
@@ -19,14 +19,14 @@ pub fn ProjectsSection(projects: Vec<Project>) -> Element {
 
                 h2 {
                     class: "text-2xl md:text-3xl text-white font-bold mb-8 md:mb-10",
-                    "Projects"
+                    "OSS Contributions"
                 }
 
                 div {
                     class: "grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5",
 
-                    for project in projects {
-                        ProjectCard { project: project }
+                    for contribution in contributions {
+                        OSSContributionCard { contribution: contribution }
                     }
                 }
             }
@@ -35,8 +35,8 @@ pub fn ProjectsSection(projects: Vec<Project>) -> Element {
 }
 
 #[component]
-fn ProjectCard(project: Project) -> Element {
-    if let Some(link) = &project.link {
+fn OSSContributionCard(contribution: OSSContribution) -> Element {
+    if let Some(link) = &contribution.link {
         rsx! {
             a {
                 href: "{link}",
@@ -44,14 +44,9 @@ fn ProjectCard(project: Project) -> Element {
                 rel: "noopener noreferrer",
                 class: "bg-[#111111] border border-[#1f1f1f] rounded-xl p-5 hover:border-[#2a2a2a] transition-colors duration-300 block",
 
-                h3 {
-                    class: "text-white text-base font-semibold mb-1",
-                    "{project.name}"
-                }
-
                 p {
                     class: "text-[#b0b0b0] text-sm",
-                    "{project.description}"
+                    "Pull Request #{contribution.pr_number} · {contribution.repository}"
                 }
             }
         }
@@ -60,14 +55,9 @@ fn ProjectCard(project: Project) -> Element {
             div {
                 class: "bg-[#111111] border border-[#1f1f1f] rounded-xl p-5 hover:border-[#2a2a2a] transition-colors duration-300 block",
 
-                h3 {
-                    class: "text-white text-base font-semibold mb-1",
-                    "{project.name}"
-                }
-
                 p {
                     class: "text-[#b0b0b0] text-sm",
-                    "{project.description}"
+                    "Pull Request #{contribution.pr_number} · {contribution.repository}"
                 }
             }
         }
