@@ -50,6 +50,9 @@ pub fn WorkExperienceSection(experiences: Vec<WorkExperience>) -> Element {
 
 #[component]
 fn WorkExperienceItem(experience: WorkExperience) -> Element {
+    let logo_dir = asset!("/assets/logo");
+    let logo = experience.logo.map(|logo| format!("{logo_dir}/{logo}"));
+
     rsx! {
        a {
         href: if let Some(company_site) = &experience.company_site { company_site.to_string() } else { "#".to_string() },
@@ -60,13 +63,13 @@ fn WorkExperienceItem(experience: WorkExperience) -> Element {
 
             // Company Logo
             div {
-                class: "w-10 h-10 rounded-lg overflow-hidden bg-[#1a1a1a] flex-shrink-0 flex items-center justify-center",
+                class: "w-full h-full rounded-lg overflow-hidden bg-[#1a1a1a] flex-shrink-0 flex items-center justify-center",
 
-                if let Some(logo) = &experience.logo {
+                if let Some(logo) = logo {
                     img {
                         src: "{logo}",
                         alt: "{experience.company} logo",
-                        class: "w-full h-full object-cover"
+                        class: "w-full h-full bg-white"
                     }
                 } else {
                     div {
