@@ -1,21 +1,21 @@
 [
   {
-    "name": "Recent Project 1",
-    "description": "A recent project I've been working on with modern technologies",
-    "topics": ["Rust", "Web", "Full Stack"],
-    "link": "https://github.com/yourusername/recent-project-1"
+    "name": "Vectra",
+    "description": "Vectra, built with TypeScript, helps you build and query your own knowledge base",
+    "topics": ["TypeScript", "AI", "RAG"],
+    "link": "https://github.com/theVuArena/vectra"
   },
   {
-    "name": "Recent Project 2",
-    "description": "Another recent project showcasing my skills",
-    "topics": ["TypeScript", "React", "API"],
-    "link": "https://github.com/yourusername/recent-project-2"
+    "name": "Vectra MCP",
+    "description": "An MCP server providing tools to manage and query a Vectra knowledge base, enabling integration with MCP clients via a backend API",
+    "topics": ["MCP", "TypeScript"],
+    "link": "https://github.com/theVuArena/vectra-mcp"
   },
   {
-    "name": "Recent Project 3",
-    "description": "A third project demonstrating various capabilities",
-    "topics": ["Python", "ML", "Data Science"],
-    "link": "https://github.com/yourusername/recent-project-3"
+    "name": "UI Annotation Tool",
+    "description": "A full-stack project for creating, annotating, and evaluating UI element datasets for machine learning",
+    "topics": ["TypeScript", "Python", "Gemini"],
+    "link": "https://github.com/dangvu0502/homework"
   }
 ]
 
