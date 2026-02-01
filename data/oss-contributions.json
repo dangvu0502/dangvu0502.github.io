@@ -1,5 +1,14 @@
 [
   {
+    "repository": "ac-ecosystem/logto-ui",
+    "pr_number": "1",
+    "link": "https://github.com/ac-ecosystem/logto-ui/pull/1",
+    "title": "Update loading screen",
+    "state": "open",
+    "created_at": "2026-01-19T02:22:54Z",
+    "updated_at": "2026-01-19T02:27:52Z"
+  },
+  {
     "repository": "nextest-rs/nextest",
     "pr_number": "2800",
     "link": "https://github.com/nextest-rs/nextest/pull/2800",
@@ -52,14 +61,5 @@
     "state": "closed",
     "created_at": "2025-09-22T02:55:33Z",
     "updated_at": "2025-09-25T09:47:27Z"
-  },
-  {
-    "repository": "tensorzero/tensorzero",
-    "pr_number": "3600",
-    "link": "https://github.com/tensorzero/tensorzero/pull/3600",
-    "title": "Make DiclConfig fields private with getters",
-    "state": "closed",
-    "created_at": "2025-09-20T15:07:32Z",
-    "updated_at": "2025-09-22T20:53:24Z"
   }
 ]
