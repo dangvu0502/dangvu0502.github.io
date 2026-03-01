@@ -1,5 +1,11 @@
 [
   {
+    "name": "dangvu0502/vps",
+    "description": null,
+    "topics": [],
+    "link": "https://github.com/dangvu0502/vps"
+  },
+  {
     "name": "dangvu0502/dangvu0502.github.io",
     "description": null,
     "topics": [],
@@ -22,15 +28,5 @@
     "description": null,
     "topics": [],
     "link": "https://github.com/dangvu0502/homework-pinecone"
-  },
-  {
-    "name": "dangvu0502/fastapi-react",
-    "description": "FastAPI + React Full-Stack Template",
-    "topics": [
-      "fastapi",
-      "react",
-      "template"
-    ],
-    "link": "https://github.com/dangvu0502/fastapi-react"
   }
 ]
