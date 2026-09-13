@@ -65,13 +65,15 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 /* weather panel */
 .visual { position: sticky; top: var(--page-pad); height: calc(100svh - 2 * var(--page-pad)); min-height: min(72svh, 760px); border: 1px solid var(--color-line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; isolation: isolate; transition: border-color 1.2s; background: var(--color-surface); }
 .stage { height: 132px; position: relative; margin: 0 0 .6rem; }
-.poke-wrap { position: absolute; bottom: 0; left: 0; opacity: 0; }
-.poke-wrap.poke-in { opacity: 1; animation: patrol 16s linear infinite; }
+.poke-wrap { position: absolute; bottom: 0; left: 0; width: 110px; opacity: 0; }
+.poke-wrap.poke-in { opacity: 1; animation: walk 16s linear infinite; }
+.poke-flip { transform-origin: 50% 100%; }
+.poke-in .poke-flip { animation: face 16s steps(1) infinite; }
 .poke { display: block; image-rendering: pixelated; height: 122px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); transform-origin: 50% 100%; }
 .poke-in .poke { animation: popin .5s cubic-bezier(.2,1.4,.4,1) both; }
-.bubble { position: absolute; bottom: 108px; left: 50%; transform: translateX(-50%); width: max-content; max-width: min(240px, 62vw); margin: 0; padding: 7px 10px; font: 500 12px/1.4 var(--font-ui); color: #23201c; background: #f4f0e8; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.45); text-wrap: pretty; animation: bubblein .45s cubic-bezier(.2,1.4,.4,1) both; z-index: 2; }
+.bubble { position: absolute; bottom: 126px; left: 50%; transform: translateX(-50%); width: max-content; max-width: min(240px, 62vw); margin: 0; padding: 7px 10px; font: 500 12px/1.4 var(--font-ui); color: #23201c; background: #f4f0e8; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.45); text-wrap: pretty; animation: bubblein .45s cubic-bezier(.2,1.4,.4,1) both; z-index: 2; }
 .bubble::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: #f4f0e8; border-bottom: 0; }
-.stage { isolation: isolate; }
+
 @keyframes bubblein { from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(.85); } to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } }
 .poke-button { display: block; padding: 0; border: 0; background: none; cursor: pointer; }
 .poke-button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; border-radius: 6px; }
@@ -80,7 +82,8 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 @keyframes wobble { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-14deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
 @keyframes burst { 0% { transform: scale(1); opacity: 1; filter: brightness(1); } 40% { transform: scale(1.35); opacity: 1; filter: brightness(3); } 100% { transform: scale(.4); opacity: 0; } }
 @keyframes popin { from { transform: scale(.2); filter: brightness(4); } to { transform: scale(1); filter: brightness(1); } }
-@keyframes patrol { 0% { left: 0; transform: scaleX(-1); } 48% { left: calc(100% - 110px); transform: scaleX(-1); } 50% { left: calc(100% - 110px); transform: scaleX(1); } 98% { left: 0; transform: scaleX(1); } 100% { left: 0; transform: scaleX(-1); } }
+@keyframes walk { 0% { left: 0; } 48% { left: calc(100% - 110px); } 50% { left: calc(100% - 110px); } 98% { left: 0; } 100% { left: 0; } }
+@keyframes face { 0% { transform: scaleX(-1); } 50% { transform: scaleX(1); } 100% { transform: scaleX(-1); } }
 .cond { font: 15px/1.4 var(--font-ui); color: var(--color-nav); letter-spacing: .01em; margin: 0; }
 .cond b { color: var(--color-ink); font-weight: 500; }
 .dex { margin-top: .9rem; padding-top: .8rem; border-top: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent); }
@@ -100,6 +103,6 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
-  .poke-wrap.poke-in { animation: none; } .poke-in .poke { animation: none; } .ball { animation: none; } .ball-open { opacity: 0; }
+  .poke-wrap.poke-in { animation: none; } .poke-in .poke-flip { animation: none; } .poke-in .poke { animation: none; } .ball { animation: none; } .ball-open { opacity: 0; }
   .bubble { animation: none; }
 }

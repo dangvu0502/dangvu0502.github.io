@@ -179,11 +179,9 @@ export default function WeatherPanel() {
           <path fill="#f4f0e8" d="M7 7h2v2H7z" />
         </svg>
         {mon && (
-          <>
-            {hello && loaded && bubbleOpen && (
-              <p className="bubble">{hello}</p>
-            )}
-            <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
+          <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
+            {hello && loaded && bubbleOpen && <p className="bubble">{hello}</p>}
+            <div className="poke-flip">
               <button
                 type="button"
                 className="poke-button"
@@ -194,7 +192,7 @@ export default function WeatherPanel() {
                 <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
       <p className="cond" dangerouslySetInnerHTML={{ __html: parts.join(" · ") }} />
