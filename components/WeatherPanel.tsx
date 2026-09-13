@@ -103,6 +103,8 @@ function fmtHour(h: number) {
 export default function WeatherPanel() {
   const [wx, setWx] = useState<Weather | null>(null);
   const [mon, setMon] = useState<Mon | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [settled, setSettled] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -119,6 +121,7 @@ export default function WeatherPanel() {
       if (!alive) return;
       if (data) document.documentElement.dataset.weather = data.theme;
       setWx(data);
+      setSettled(true);
       const m = await summon(data?.theme ?? "");
       if (alive) setMon(m);
     })();
@@ -129,7 +132,7 @@ export default function WeatherPanel() {
 
   const parts = wx
     ? [wx.temp != null ? `${Math.round(wx.temp)}°` : null, `<b>${NAME[wx.theme]}</b>`, wx.city, wx.hour != null ? fmtHour(wx.hour) : null].filter(Boolean)
-    : ["<b>default palette</b>"];
+    : [settled ? "<b>default palette</b>" : "Looking up your sky…"];
 
   return (
     <aside className="visual" aria-label="Weather">
@@ -145,7 +148,16 @@ export default function WeatherPanel() {
         </div>
       </div>
       <div className="stage">
-        {mon && <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} />}
+        <svg className={"ball" + (loaded ? " ball-open" : "")} viewBox="0 0 16 16" aria-hidden="true" shapeRendering="crispEdges">
+          <path fill="#1a1a1a" d="M5 0h6v1h2v1h1v1h1v2h1v6h-1v2h-1v1h-1v1h-2v1H5v-1H3v-1H2v-1H1v-2H0V5h1V3h1V2h1V1h2z" />
+          <path fill="#e8352e" d="M5 1h6v1h2v1h1v1h1v3H1V4h1V3h1V2h2z" />
+          <path fill="#f4f0e8" d="M1 9h14v2h-1v2h-1v1h-1v1h-2v1H6v-1H4v-1H3v-1H2v-2H1z" />
+          <path fill="#1a1a1a" d="M1 7h5v1h4V7h5v2h-5v1H6V9H1z" />
+          <path fill="#f4f0e8" d="M7 7h2v2H7z" />
+        </svg>
+        {mon && (
+          <img className={"poke" + (loaded ? " poke-in" : "")} src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
+        )}
       </div>
       <p className="cond" dangerouslySetInnerHTML={{ __html: parts.join(" · ") }} />
       <div className="dex">

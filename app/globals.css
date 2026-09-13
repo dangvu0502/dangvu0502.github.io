@@ -65,8 +65,14 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 /* weather panel */
 .visual { position: sticky; top: var(--page-pad); height: calc(100svh - 2 * var(--page-pad)); min-height: min(72svh, 760px); border: 1px solid var(--color-line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; isolation: isolate; transition: border-color 1.2s; background: var(--color-surface); }
 .stage { height: 132px; position: relative; margin: 0 0 .6rem; }
-.poke { position: absolute; bottom: 0; left: 0; image-rendering: pixelated; height: 122px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); animation: patrol 16s linear infinite; }
-.poke[hidden] { display: none; }
+.poke { position: absolute; bottom: 0; left: 0; image-rendering: pixelated; height: 122px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); }
+.poke { opacity: 0; }
+.poke.poke-in { opacity: 1; animation: patrol 16s linear infinite, popin .5s cubic-bezier(.2,1.4,.4,1) both; }
+.ball { position: absolute; bottom: 10px; left: 24px; width: 44px; height: 44px; image-rendering: pixelated; transform-origin: 50% 100%; animation: wobble 1.6s ease-in-out infinite; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); }
+.ball-open { animation: burst .45s ease-out forwards; }
+@keyframes wobble { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-14deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
+@keyframes burst { 0% { transform: scale(1); opacity: 1; filter: brightness(1); } 40% { transform: scale(1.35); opacity: 1; filter: brightness(3); } 100% { transform: scale(.4); opacity: 0; } }
+@keyframes popin { from { transform: scaleX(-1) scale(.2); filter: brightness(4); } to { transform: scaleX(-1) scale(1); filter: brightness(1); } }
 @keyframes patrol { 0% { left: 0; transform: scaleX(-1); } 48% { left: calc(100% - 110px); transform: scaleX(-1); } 50% { left: calc(100% - 110px); transform: scaleX(1); } 98% { left: 0; transform: scaleX(1); } 100% { left: 0; transform: scaleX(-1); } }
 .cond { font: 15px/1.4 var(--font-ui); color: var(--color-nav); letter-spacing: .01em; margin: 0; }
 .cond b { color: var(--color-ink); font-weight: 500; }
@@ -87,5 +93,5 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
-  .poke { animation: none; }
+  .poke.poke-in { animation: none; } .ball { animation: none; } .ball-open { opacity: 0; }
 }
