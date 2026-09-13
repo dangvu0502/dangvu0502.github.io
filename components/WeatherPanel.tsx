@@ -23,16 +23,16 @@ const POOL: Record<Theme | "", number[]> = {
 const SPRITE = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
 const FALLBACK_MON: Mon = { id: 351, name: "Castform", form: null, text: "Its form changes depending on the weather." };
 
-// A greeting from the creature, picked per weather. Written, not generated:
-// instant, works in every browser, no model download.
+// A greeting about the visitor's own weather. {city} is filled from the IP
+// lookup; lines are written so they still read if the city is unknown.
 const GREETING: Record<Theme | "", string[]> = {
-  "": ["Thanks for stopping by.", "Good to see you here.", "Hello from Hanoi."],
-  "clear-day": ["Sunny in Hanoi today. Hope the light is good wherever you are.", "Clear skies here. Have a good one out there.", "Bright day in Hanoi. Thanks for visiting."],
-  "clear-night": ["Clear night in Hanoi. Thanks for stopping by this late.", "Stars are out here. Nice of you to drop in.", "Quiet night in Hanoi. Glad you came."],
-  cloudy: ["Grey over Hanoi right now. Good weather for staying in and reading.", "Overcast here. Take it easy today.", "Cloudy in Hanoi. Thanks for the visit."],
-  rain: ["It's raining in Hanoi. Stay dry out there.", "Rain here today. Hope you kept an umbrella.", "Wet one in Hanoi. Thanks for coming by."],
-  snow: ["Snow where you are. Keep warm.", "Cold out there. Wrap up well.", "Snowing in Hanoi, apparently. Stay cosy."],
-  thunder: ["Storm over Hanoi. Hope you're somewhere safe and dry.", "Thunder here. Mind how you go.", "Rough weather in Hanoi. Take care out there."],
+  "": ["Thanks for stopping by.", "Good to see you here.", "Glad you dropped in."],
+  "clear-day": ["Clear skies {in} today. Hope the light is good.", "Sunny one {in}. Have a good day out there.", "Bright {in} right now. Thanks for visiting."],
+  "clear-night": ["Clear night {in}. Thanks for stopping by this late.", "Stars are out {in}. Nice of you to drop in.", "Quiet night {in}. Glad you came."],
+  cloudy: ["Grey {in} right now. Good weather for staying in and reading.", "Overcast {in} today. Take it easy.", "Cloudy {in}. Thanks for the visit."],
+  rain: ["Rain {in} today. Stay dry out there.", "It's wet {in}. Hope you kept an umbrella.", "Raining {in} right now. Thanks for coming by."],
+  snow: ["Snow {in} today. Keep warm out there.", "Cold one {in}. Wrap up well.", "Snowing {in}. Stay cosy."],
+  thunder: ["Storm {in} right now. Hope you're somewhere safe and dry.", "Thunder {in} today. Mind how you go.", "Rough weather {in}. Take care out there."],
 };
 const LATE = "Late where you are. Get some sleep after this.";
 
@@ -91,7 +91,7 @@ async function lookup(): Promise<Weather> {
   const local = new Date(cur.time);
   return {
     theme: toTheme(cur.weather_code, cur.is_day === 1),
-    city: ((loc.region as string) || (loc.city as string)) ?? null, // region = "Hanoi", city = district
+    city: ((loc.region as string) || (loc.city as string)) ?? null, // region is the city-level name; loc.city is often a district
     temp: cur.temperature_2m,
     hour: local.getHours() + local.getMinutes() / 60,
   };
@@ -125,11 +125,13 @@ function noOrphan(text: string): string {
   return text.replace(/ (\S+)$/, "\u00a0$1");
 }
 
-function greet(theme: Theme | "", hour: number | null): string {
+function greet(theme: Theme | "", hour: number | null, city: string | null): string {
   const h = hour ?? new Date().getHours();
   if (h >= 23 || h < 5) return LATE;
   const lines = GREETING[theme];
-  return lines[Math.floor(Math.random() * lines.length)];
+  const pick = lines[Math.floor(Math.random() * lines.length)];
+  // "{in}" becomes "in Berlin", or "where you are" when the city is unknown.
+  return pick.replace("{in}", city ? `in ${city}` : "where you are");
 }
 
 function shuffle<T>(list: T[]): T[] {
@@ -142,8 +144,8 @@ function shuffle<T>(list: T[]): T[] {
 }
 
 // Opening line is about the weather; the rest are wishes, in a random order.
-function script(theme: Theme | "", hour: number | null): string[] {
-  return [greet(theme, hour), ...shuffle(WISHES).slice(0, 4)];
+function script(theme: Theme | "", hour: number | null, city: string | null): string[] {
+  return [greet(theme, hour, city), ...shuffle(WISHES).slice(0, 4)];
 }
 
 function fmtHour(h: number) {
@@ -178,7 +180,7 @@ export default function WeatherPanel() {
       const m = await summon(data?.theme ?? "");
       if (!alive) return;
       setMon(m);
-      setLines(script(data?.theme ?? "", data?.hour ?? null));
+      setLines(script(data?.theme ?? "", data?.hour ?? null, data?.city ?? null));
       setLine(0);
     })();
     return () => {
@@ -196,12 +198,12 @@ export default function WeatherPanel() {
       setLoaded(false);
       setMon(null);
       setBubbleOpen(true);
-      setWx(theme ? { theme, city: prev?.city ?? "Hanoi", temp: prev?.temp ?? null, hour: prev?.hour ?? null } : null);
+      setWx(theme ? { theme, city: prev?.city ?? null, temp: prev?.temp ?? null, hour: prev?.hour ?? null } : null);
       setSettled(true);
       const m = await summon(theme);
       if (previewRef.current !== run) return;
       setMon(m);
-      setLines(script(theme, prev?.hour ?? null));
+      setLines(script(theme, prev?.hour ?? null, prev?.city ?? null));
       setLine(0);
     };
     window.addEventListener("weather-preview", onPreview);

@@ -56,7 +56,7 @@ export default function Home() {
 
           <footer className="site">
             Built with Next.js, static export, on GitHub Pages.{" "}
-            <a href="https://github.com/dangvu0502/dangvu0502.github.io">Source</a>. Previous version: Rust / Dioxus compiled to WASM, still in the git history.
+            <a href="https://github.com/dangvu0502/dangvu0502.github.io">Source</a>.
           </footer>
         </main>
 
