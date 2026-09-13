@@ -156,7 +156,9 @@ export default function WeatherPanel() {
           <path fill="#f4f0e8" d="M7 7h2v2H7z" />
         </svg>
         {mon && (
-          <img className={"poke" + (loaded ? " poke-in" : "")} src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
+          <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
+            <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
+          </div>
         )}
       </div>
       <p className="cond" dangerouslySetInnerHTML={{ __html: parts.join(" · ") }} />
