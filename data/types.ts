@@ -1,13 +1,3 @@
-export type WorkExperience = {
-  company: string;
-  company_site: string | null;
-  role: string;
-  location: string;
-  dates: string;
-  logo: string | null;
-  highlights?: string[];
-};
-
 export type Project = {
   name: string;
   description: string | null;
@@ -23,4 +13,13 @@ export type OSSContribution = {
   state: string;
   created_at: string;
   updated_at: string;
+};
+
+export type Story = {
+  name: string;
+  line: string;
+  email: string;
+  github: string;
+  linkedin: string;
+  paragraphs: string[];
 };

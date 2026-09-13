@@ -16,16 +16,18 @@ npm run build   # static site in ./out
 
 All content lives in `data/*.json`, imported at build time:
 
-- `work-experience.json` — jobs, with optional `highlights[]`
-- `pinned-projects.json` — hand-curated
-- `recent-projects.json` — repos refreshed monthly by CI; hand-written `description` values survive the refresh when GitHub has none
+- `story.json` — name, tagline, links, and the story paragraphs (HTML strings)
+- `pinned-projects.json` — the Projects rows, hand-curated
+- `recent-projects.json` — refreshed monthly by CI, currently not rendered
 - `oss-contributions.json` — refreshed monthly by CI, do not hand-edit
 
 Refresh script: `scripts/fetch-oss-contributions` (Rust), run by `.github/workflows/update-oss-contributions.yml`.
 
-## Weather-reactive theme
+## Weather panel
 
-Progressive enhancement in `components/WeatherTheme.tsx` + `app/weather.css`. After mount: IP lookup via ipwho.is, then Open-Meteo current `weather_code` + `is_day`, mapped to one of six themes (`clear-day`, `clear-night`, `cloudy`, `rain`, `snow`, `thunder`) and applied as `data-weather` on `<html>`. Themes are CSS-variable overrides only. Keyless, no geolocation prompt, 3s timeouts, silent fallback to the default palette, 1h `sessionStorage` cache.
+`components/WeatherPanel.tsx` (the only client component) + `app/weather.css`. After mount: IP lookup via ipwho.is, then Open-Meteo current `weather_code`, `is_day`, `temperature_2m`, mapped to one of six themes (`clear-day`, `clear-night`, `cloudy`, `rain`, `snow`, `thunder`) and applied as `data-weather` on `<html>`. Palette and the pixel scene are CSS-variable overrides only. Keyless, no geolocation prompt, 3s timeouts, silent fallback to the default palette, 1h `sessionStorage` cache.
+
+The scene is a CC0 parallax forest by MatiasVME (OpenGameArt), 8 PNG layers in `public/weather/`, recolored per weather with CSS filters; rain, snow, stars and lightning are CSS gradients. A weather-matched Pokémon is picked at random from a per-theme pool and its sprite and Pokédex text are fetched live from PokeAPI (nothing bundled). Sprites are Nintendo / Game Freak / Creatures property, used here as non-commercial fan content.
 
 ## Deploy
 

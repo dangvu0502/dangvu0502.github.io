@@ -1,71 +1,41 @@
 /* Weather-reactive theme. Base palette (no data-weather) is the default.
-   Every --color-accent-solid keeps white text at >= 4.5:1 (WCAG AA). */
-:root {
-  --ambient: transparent;
-}
+   Palette tokens + pixel-scene variables. Scene art: CC0 parallax forest by MatiasVME (OpenGameArt). */
+:root { --sky-top:#4c8a9c; --sky-mid:#8fdcd8; --scene-filter:none; --mtn-filter:none; --cloud-op:1; --cloud2-op:0; --cloud-y:0px; --fog-op:0; --sun-op:1; --stars-op:0; --wx-op:0; }
+[data-weather="clear-day"]   { --color-accent:#e08a3c; --color-accent-solid:#a85c1a; --color-page:#15100a; --color-surface:#1b140e; --color-line:#2c2118; --sky-top:#3f8fb0; --sky-mid:#9be3e0; }
+[data-weather="clear-night"] { --color-accent:#b98ad0; --color-accent-solid:#7a4f9e; --color-page:#0b0a14; --color-surface:#12101c; --color-line:#241f34; --sky-top:#0b1030; --sky-mid:#1d2a5a; --scene-filter:brightness(.42) saturate(.55) hue-rotate(190deg); --mtn-filter:brightness(.3) saturate(.4) hue-rotate(200deg); --cloud-op:.25; --sun-op:0; --stars-op:1; }
+[data-weather="cloudy"]      { --color-page:#0f0f0f; --color-surface:#151515; --color-line:#252525; --sky-top:#5c6670; --sky-mid:#9aa3aa; --scene-filter:brightness(.78) saturate(.45); --mtn-filter:brightness(.7) saturate(.35); --cloud2-op:.9; --cloud-y:12%; --fog-op:.55; --sun-op:0; }
+[data-weather="rain"]        { --color-accent:#6fb0cc; --color-accent-solid:#2f6f8f; --color-page:#090d12; --color-surface:#0f151c; --color-line:#1c2731; --sky-top:#2f3f52; --sky-mid:#5c7085; --scene-filter:brightness(.55) saturate(.5) hue-rotate(10deg); --mtn-filter:brightness(.5) saturate(.4) hue-rotate(10deg); --cloud2-op:1; --cloud-y:18%; --fog-op:.35; --sun-op:0; --wx-op:1; }
+[data-weather="snow"]        { --color-accent:#a9d0e4; --color-accent-solid:#366a82; --color-page:#0e1114; --color-surface:#151a1f; --color-line:#232c33; --sky-top:#8e9aa6; --sky-mid:#d6dde3; --scene-filter:brightness(1.05) saturate(.25); --mtn-filter:brightness(1.55) saturate(.08) contrast(.85); --cloud-op:.7; --cloud2-op:.6; --cloud-y:8%; --fog-op:.3; --sun-op:0; --wx-op:1; }
+[data-weather="thunder"]     { --color-accent:#e0b94a; --color-accent-solid:#8a6d14; --color-page:#0d0a0f; --color-surface:#141017; --color-line:#261f2c; --sky-top:#1a1524; --sky-mid:#3a3450; --scene-filter:brightness(.4) saturate(.5) hue-rotate(20deg); --mtn-filter:brightness(.35) saturate(.4) hue-rotate(30deg); --cloud2-op:1; --cloud-y:22%; --fog-op:.25; --sun-op:0; --wx-op:1; }
 
-body {
-  /* ponytail: no background-attachment: fixed, it forces full-page repaints and cost ~1s LCP */
-  background-image: radial-gradient(ellipse 120% 100% at 50% -20%, var(--ambient), transparent 70%);
-  background-repeat: no-repeat;
-  background-size: 100% 700px;
-  transition: background-color 1.2s ease, color 1.2s ease;
-}
-
-[data-weather="clear-day"] {
-  --color-accent: #e08a3c;
-  --color-accent-solid: #a85c1a;
-  --color-accent-hover: #8f4d14;
-  --color-page: #17110a;
-  --color-card: #171210;
-  --color-line: #2a2018;
-  --ambient: rgba(224, 138, 60, 0.32);
-}
-
-[data-weather="clear-night"] {
-  --color-accent: #b98ad0;
-  --color-accent-solid: #7a4f9e;
-  --color-accent-hover: #66408a;
-  --color-page: #0b0a16;
-  --color-card: #12101d;
-  --color-line: #221e33;
-  --ambient: rgba(130, 100, 220, 0.30);
-}
-
-[data-weather="cloudy"] {
-  /* keep default terracotta; just a soft grey haze */
-  --color-page: #101010;
-  --color-card: #151515;
-  --color-line: #262626;
-  --ambient: rgba(170, 170, 180, 0.16);
-}
-
-[data-weather="rain"] {
-  --color-accent: #6fb0cc;
-  --color-accent-solid: #2f6f8f;
-  --color-accent-hover: #275d78;
-  --color-page: #090e14;
-  --color-card: #0f151c;
-  --color-line: #1c2731;
-  --ambient: rgba(70, 140, 190, 0.30);
-}
-
-[data-weather="snow"] {
-  --color-accent: #a9d0e4;
-  --color-accent-solid: #366a82;
-  --color-accent-hover: #2c5769;
-  --color-page: #0e1216;
-  --color-card: #141a1f;
-  --color-line: #232c33;
-  --ambient: rgba(200, 225, 240, 0.26);
-}
-
-[data-weather="thunder"] {
-  --color-accent: #e0b94a;
-  --color-accent-solid: #8a6d14;
-  --color-accent-hover: #74590f;
-  --color-page: #0d0a10;
-  --color-card: #141017;
-  --color-line: #261f2c;
-  --ambient: rgba(224, 185, 74, 0.26);
-}
+.scene { position: absolute; inset: 0; z-index: -3; image-rendering: pixelated; background: linear-gradient(to bottom, var(--sky-top), var(--sky-mid) 70%); transition: background 1.2s; }
+.scene > div { position: absolute; inset: 0; background-repeat: no-repeat; background-position: center bottom; background-size: auto 100%; image-rendering: pixelated; filter: var(--scene-filter); transition: filter 1.2s, opacity 1.2s; }
+.scene .l-sky  { background-image: url(/weather/fx-sky.png); background-size: 100% 100%; opacity: .45; }
+.scene .l-sun  { background-image: url(/weather/fx-sun.png); background-position: 78% bottom; opacity: var(--sun-op); filter: none; }
+.scene .l-cl   { background-image: url(/weather/fx-clouds.png); opacity: var(--cloud-op); animation: drift 90s linear infinite; }
+.scene .l-cl2  { background-image: url(/weather/fx-clouds.png); background-position: -640px 0; opacity: var(--cloud2-op); animation: drift 140s linear infinite reverse; filter: var(--scene-filter) brightness(.75); transform: translateY(var(--cloud-y)); }
+.scene .l-m3   { background-image: url(/weather/fx-mountains_3.png); filter: var(--mtn-filter); }
+.scene .l-m2   { background-image: url(/weather/fx-mountains_2.png); filter: var(--mtn-filter); }
+.scene .l-m1   { background-image: url(/weather/fx-mountains_1.png); filter: var(--mtn-filter); }
+.scene .l-rk   { background-image: url(/weather/fx-rocks.png); }
+.scene .l-tr   { background-image: url(/weather/fx-trees.png); }
+.scene .l-fog  { background: linear-gradient(to bottom, transparent 30%, color-mix(in srgb, var(--sky-mid) 90%, #fff) 50%, transparent 70%); opacity: var(--fog-op); filter: none; }
+.scene .l-stars { background-image: radial-gradient(circle, #fff 1px, transparent 1.4px), radial-gradient(circle, #cfd6ff .8px, transparent 1.2px); background-size: 90px 90px, 57px 57px; background-position: 0 0, 30px 20px; background-repeat: repeat; inset: 0 0 45% 0; opacity: var(--stars-op); filter: none; }
+.scene .l-wx { opacity: var(--wx-op); filter: none; }
+[data-weather="rain"] .scene .l-wx, [data-weather="thunder"] .scene .l-wx { inset: -20% -20% -10% -20%; transform: rotate(14deg); background-repeat: repeat;
+  background-image: radial-gradient(1px 7px at 1px 7px, rgba(205,225,245,.6) 0 100%, transparent 101%), radial-gradient(1px 5px at 1px 5px, rgba(205,225,245,.35) 0 100%, transparent 101%);
+  background-size: 18px 46px, 26px 34px; background-position: 0 0, 9px 13px; animation: rain .55s steps(6) infinite, rain2 .8s steps(6) infinite; }
+[data-weather="thunder"] .scene .l-wx { background-image: radial-gradient(1px 8px at 1px 8px, rgba(215,225,245,.7) 0 100%, transparent 101%), radial-gradient(1px 5px at 1px 5px, rgba(215,225,245,.4) 0 100%, transparent 101%); background-size: 12px 32px, 18px 26px; animation-duration: .4s, .6s; }
+[data-weather="snow"] .scene .l-wx { background-image: radial-gradient(circle, #fff 1.5px, transparent 2.2px); background-size: 48px 48px; background-repeat: repeat; background-position: 0 0; animation: snow 9s linear infinite; }
+.scene .l-bolt { opacity: 0; filter: none; background: none; }
+[data-weather="thunder"] .scene .l-bolt { animation: bolt 8s steps(1) infinite; }
+.scene .l-bolt svg { position: absolute; left: 58%; top: 6%; width: 70px; height: 190px; shape-rendering: crispEdges; }
+.scene::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 80%, transparent) 22%, transparent 45%); }
+[data-weather="thunder"] .scene::before { content: ""; position: absolute; inset: 0; background: rgba(255,250,230,.55); opacity: 0; animation: flash 8s steps(1) infinite; z-index: 1; }
+@keyframes drift { to { background-position-x: -1280px; } }
+@keyframes rain { to { background-position-y: 40px; } }
+@keyframes rain2 { to { background-position: 9px 43px; } }
+@keyframes snow { to { background-position: 24px 48px; } }
+@keyframes flash { 0%, 90%, 92.5%, 94%, 96%, 100% { opacity: 0; } 91%, 93%, 95% { opacity: 1; } }
+@keyframes bolt { 0%, 90.5%, 92.5%, 94.5%, 100% { opacity: 0; } 91%, 93%, 95% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .scene .l-cl, .scene .l-cl2, .scene .l-wx, .scene .l-bolt, .scene::before { animation: none !important; } }

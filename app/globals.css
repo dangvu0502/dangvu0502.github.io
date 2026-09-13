@@ -2,45 +2,90 @@
 @import "./weather.css";
 
 @theme {
-  --color-accent: #c46846;
-  --color-accent-hover: #9c4a2a;
-  --color-accent-solid: #a8522f; /* white text on this passes WCAG AA (5.5:1); raw accent is 3.9:1 */
-  --color-ink: #e8dfd6;
-  --color-body: #b0b0b0;
-  --color-muted: #9ca3af;
-  --color-faint: #8b8f98; /* 5.4:1 on card; old #6b7280 was 3.7:1 */
-  --color-line: #1f1f1f;
-  --color-card: #111111;
-  --color-raised: #1a1a1a;
-  --color-edge: #2a2a2a;
   --color-page: #0f0b08;
+  --color-surface: #161110;
+  --color-ink: #ece4db;
+  --color-copy: #d8d0c7;
+  --color-nav: #9a938b;
+  --color-faint: #6f6862;
+  --color-line: #262019;
+  --color-accent: #c46846;
+  --color-accent-solid: #a8522f;
 }
 
-html {
-  scroll-behavior: smooth;
+:root {
+  --font-reading: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --content-width: 600px;
+  --page-pad: clamp(1.25rem, 3.4vw, 3.25rem);
 }
 
+html { color-scheme: dark; }
 body {
-  background-color: var(--color-page);
-  color: var(--color-ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--color-page);
+  color: var(--color-copy);
+  font-family: var(--font-reading);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 1.2s ease;
 }
+.shell { min-height: 100vh; padding: var(--page-pad); }
+.layout { width: min(100%, 1120px); margin-inline: auto; display: grid; grid-template-columns: var(--content-width) minmax(380px, 1fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+.copy { width: min(100%, var(--content-width)); min-width: 0; }
 
-strong {
-  color: #faf7f2;
-  font-weight: 500;
+.copy p { margin: 0 0 1.45rem; }
+.copy strong { color: var(--color-ink); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.copy a { color: var(--color-nav); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--color-nav) 30%, transparent); text-underline-offset: 2px; transition: color .3s, text-decoration-color .3s; }
+.copy a:hover { color: var(--color-copy); text-decoration-color: color-mix(in srgb, var(--color-copy) 30%, transparent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+.title { color: var(--color-ink); font-size: clamp(2.2rem, 3.5vw, 2.65rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin: 0 0 .5em; }
+.handle { font: 14px/1.5 var(--font-ui); color: var(--color-nav); letter-spacing: .01em; margin: -0.6em 0 2rem; }
+.bio { margin-bottom: 3.25rem; }
+.cta { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; font: 500 14px var(--font-ui); margin-top: .25rem; }
+.cta a:not(.btn) { color: var(--color-copy); text-decoration: none; }
+.cta a:not(.btn):hover { color: var(--color-ink); }
+.cta .btn { background: var(--color-accent-solid); color: #fff; text-decoration: none; padding: 9px 16px; border-radius: 8px; transition: background-color 1.2s; }
+.cta .btn:hover { filter: brightness(1.1); }
+
+section + section { margin-top: 3.5rem; }
+h2 { color: var(--color-ink); font-size: 1.45rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.4; margin: 0 0 1.2rem; }
+
+.rows { border-top: 1px solid var(--color-line); margin-top: .85em; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.25rem; align-items: baseline; padding: .72em 0; border-bottom: 1px solid var(--color-line); color: var(--color-copy); text-decoration: none; opacity: .85; transition: opacity .3s; }
+.copy .row { color: var(--color-copy); text-decoration: none; }
+.rows:hover .row { opacity: .7; } .rows:hover .row:hover { opacity: 1; }
+.row time, .row .side { font: 14px var(--font-ui); color: var(--color-nav); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
+.row .t { display: block; }
+.row .d { display: block; font-size: 15px; color: var(--color-nav); margin-top: .15rem; }
+
+footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--color-line); font: 13px/1.6 var(--font-ui); color: var(--color-faint); }
+
+/* weather panel */
+.visual { position: sticky; top: var(--page-pad); height: calc(100svh - 2 * var(--page-pad)); min-height: min(72svh, 760px); border: 1px solid var(--color-line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; isolation: isolate; transition: border-color 1.2s; background: var(--color-surface); }
+.stage { height: 132px; position: relative; margin: 0 0 .6rem; }
+.poke { position: absolute; bottom: 0; left: 0; image-rendering: pixelated; height: 122px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); animation: patrol 16s linear infinite; }
+.poke[hidden] { display: none; }
+@keyframes patrol { 0% { left: 0; transform: scaleX(-1); } 48% { left: calc(100% - 110px); transform: scaleX(-1); } 50% { left: calc(100% - 110px); transform: scaleX(1); } 98% { left: 0; transform: scaleX(1); } 100% { left: 0; transform: scaleX(-1); } }
+.cond { font: 15px/1.4 var(--font-ui); color: var(--color-nav); letter-spacing: .01em; margin: 0; }
+.cond b { color: var(--color-ink); font-weight: 500; }
+.dex { margin-top: .9rem; padding-top: .8rem; border-top: 1px solid color-mix(in srgb, var(--color-line) 60%, transparent); }
+.dex:empty { display: none; }
+.dex-name { font: 600 16px/1.4 var(--font-ui); color: var(--color-accent); margin: 0 0 .25rem; transition: color 1.2s; }
+.dex-text { font: 13px/1.5 var(--font-ui); color: var(--color-nav); margin: 0; max-width: 42ch; }
+
+@media (max-width: 1080px) {
+  .layout { display: block; margin-inline: auto; width: min(100%, var(--content-width)); }
+  .visual { position: relative; top: auto; height: 520px; min-height: 0; margin-top: 3.5rem; padding: 1.25rem; }
 }
-
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+@media (max-width: 640px) {
+  .shell { padding: 2.5rem 1.25rem 1.25rem; }
+  body { font-size: 16px; }
+  .row { grid-template-columns: 1fr; gap: .15rem; }
+  .row time, .row .side { font-size: 13px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  * {
-    transition: none !important;
-  }
+  * { transition: none !important; }
+  .poke { animation: none; }
 }

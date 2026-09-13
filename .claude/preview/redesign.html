@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dang Vu</title>
+<style>
+  :root {
+    --page: #0f0b08;
+    --surface: #161110;
+    --ink: #ece4db;
+    --copy: #d8d0c7;
+    --nav: #9a938b;
+    --faint: #6f6862;
+    --line: #262019;
+    --accent: #c46846;
+    --accent-solid: #a8522f;
+    --glow: rgba(196, 104, 70, 0.22);
+    --font-reading: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --content-width: 600px;
+    --page-pad: clamp(1.25rem, 3.4vw, 3.25rem);
+  }
+  [data-weather="clear-day"]   { --accent:#e08a3c; --accent-solid:#a85c1a; --page:#15100a; --surface:#1b140e; --line:#2c2118; --glow:rgba(224,138,60,.32); }
+  [data-weather="clear-night"] { --accent:#b98ad0; --accent-solid:#7a4f9e; --page:#0b0a14; --surface:#12101c; --line:#241f34; --glow:rgba(130,100,220,.30); }
+  [data-weather="cloudy"]      { --page:#0f0f0f; --surface:#151515; --line:#252525; --glow:rgba(170,170,180,.14); }
+  [data-weather="rain"]        { --accent:#6fb0cc; --accent-solid:#2f6f8f; --page:#090d12; --surface:#0f151c; --line:#1c2731; --glow:rgba(70,140,190,.30); }
+  [data-weather="snow"]        { --accent:#a9d0e4; --accent-solid:#366a82; --page:#0e1114; --surface:#151a1f; --line:#232c33; --glow:rgba(200,225,240,.24); }
+  [data-weather="thunder"]     { --accent:#e0b94a; --accent-solid:#8a6d14; --page:#0d0a0f; --surface:#141017; --line:#261f2c; --glow:rgba(224,185,74,.24); }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--copy);
+    font-family: var(--font-reading);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 1.2s ease;
+  }
+  .shell { min-height: 100vh; padding: var(--page-pad); container-type: inline-size; }
+  .layout { width: min(100%, 1120px); margin-inline: auto; display: grid; grid-template-columns: var(--content-width) minmax(380px, 1fr); gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+  .copy { width: min(100%, var(--content-width)); min-width: 0; }
+
+  p { margin: 0 0 1.45rem; }
+  strong { color: var(--ink); font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+  a { color: var(--nav); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--nav) 30%, transparent); text-underline-offset: 2px; transition: color .3s, text-decoration-color .3s; }
+  a:hover { color: var(--copy); text-decoration-color: color-mix(in srgb, var(--copy) 30%, transparent); }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .title { color: var(--ink); font-size: clamp(2.2rem, 3.5vw, 2.65rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin: 0 0 .5em; }
+  .title a { color: inherit; text-decoration: none; }
+  .handle { font: 14px/1.5 var(--font-ui); color: var(--nav); letter-spacing: .01em; margin: -0.6em 0 2rem; }
+  .title .at { font-size: 1.1em; line-height: 0; display: inline-block; position: relative; top: .015em; margin-right: .015em; }
+
+  .bio { margin-bottom: 3.25rem; }
+
+  .cta { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; font: 500 14px var(--font-ui); margin-top: .25rem; }
+  .cta a:not(.btn) { color: var(--copy); text-decoration: none; }
+  .cta a:not(.btn):hover { color: var(--ink); }
+  .cta .btn { background: var(--accent-solid); color: #fff; text-decoration: none; padding: 9px 16px; border-radius: 8px; transition: background-color 1.2s; }
+  .cta .btn:hover { filter: brightness(1.1); }
+
+  section + section { margin-top: 3.5rem; }
+  h2 { color: var(--ink); font-size: 1.45rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.4; margin: 0 0 1.2rem; }
+
+  .rows { border-top: 1px solid var(--line); margin-top: .85em; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.25rem; align-items: baseline; padding: .72em 0; border-bottom: 1px solid var(--line); color: var(--copy); text-decoration: none; opacity: .85; transition: opacity .3s; }
+  .rows:hover .row { opacity: .7; } .rows:hover .row:hover { opacity: 1; }
+  .row time, .row .side { font: 14px var(--font-ui); color: var(--nav); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
+  .row .t { display: block; }
+  .row .d { display: block; font-size: 15px; color: var(--nav); margin-top: .15rem; }
+  .row .d strong { color: var(--copy); }
+
+
+
+
+  /* right panel = weather panel: sky + precipitation + grain + trace */
+
+  .visual { position: sticky; top: var(--page-pad); height: calc(100svh - 2 * var(--page-pad)); min-height: min(72svh, 760px); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; isolation: isolate; transition: border-color 1.2s; background: var(--surface); }
+  /* pixel scene (CC0, MatiasVME on OpenGameArt) composed per weather */
+  :root { --sky-top:#4c8a9c; --sky-mid:#8fdcd8; --scene-filter:none; --mtn-filter:none; --cloud-op:1; --cloud2-op:0; --cloud-y:0; --fog-op:0; --sun-op:1; --stars-op:0; --wx-op:0; }
+  [data-weather="clear-day"]   { --sky-top:#3f8fb0; --sky-mid:#9be3e0; }
+  [data-weather="clear-night"] { --sky-top:#0b1030; --sky-mid:#1d2a5a; --scene-filter:brightness(.42) saturate(.55) hue-rotate(190deg); --mtn-filter:brightness(.3) saturate(.4) hue-rotate(200deg); --cloud-op:.25; --sun-op:0; --stars-op:1; }
+  [data-weather="cloudy"]      { --sky-top:#5c6670; --sky-mid:#9aa3aa; --scene-filter:brightness(.78) saturate(.45); --mtn-filter:brightness(.7) saturate(.35); --cloud2-op:.9; --cloud-y:12%; --fog-op:.55; --sun-op:0; }
+  [data-weather="rain"]        { --sky-top:#2f3f52; --sky-mid:#5c7085; --scene-filter:brightness(.55) saturate(.5) hue-rotate(10deg); --mtn-filter:brightness(.5) saturate(.4) hue-rotate(10deg); --cloud2-op:1; --cloud-y:18%; --fog-op:.35; --sun-op:0; --wx-op:1; }
+  [data-weather="snow"]        { --sky-top:#8e9aa6; --sky-mid:#d6dde3; --scene-filter:brightness(1.05) saturate(.25); --mtn-filter:brightness(1.55) saturate(.08) contrast(.85); --cloud-op:.7; --cloud2-op:.6; --cloud-y:8%; --fog-op:.3; --sun-op:0; --wx-op:1; }
+  [data-weather="thunder"]     { --sky-top:#1a1524; --sky-mid:#3a3450; --scene-filter:brightness(.4) saturate(.5) hue-rotate(20deg); --mtn-filter:brightness(.35) saturate(.4) hue-rotate(30deg); --cloud2-op:1; --cloud-y:22%; --fog-op:.25; --sun-op:0; --wx-op:1; }
+
+  .scene { position: absolute; inset: 0; z-index: -3; image-rendering: pixelated; background: linear-gradient(to bottom, var(--sky-top), var(--sky-mid) 70%); transition: background 1.2s; }
+  .scene > div { position: absolute; inset: 0; background-repeat: no-repeat; background-position: center bottom; background-size: auto 100%; image-rendering: pixelated; filter: var(--scene-filter); transition: filter 1.2s, opacity 1.2s; }
+  .scene .l-sky  { background-image: url(weather/fx-sky.png); background-size: 100% 100%; opacity: .45; }
+  .scene .l-sun  { background-image: url(weather/fx-sun.png); background-size: auto 100%; background-position: 78% bottom; opacity: var(--sun-op); filter: none; }
+  .scene .l-cl   { background-image: url(weather/fx-clouds.png); background-size: auto 100%; opacity: var(--cloud-op); animation: drift 90s linear infinite; }
+  .scene .l-cl2  { background-image: url(weather/fx-clouds.png); background-size: auto 100%; background-position: -640px calc(var(--cloud-y) + 0px); opacity: var(--cloud2-op); animation: drift 140s linear infinite reverse; filter: var(--scene-filter) brightness(.75); transform: translateY(var(--cloud-y)); }
+  .scene .l-fog  { background: linear-gradient(to bottom, transparent 30%, color-mix(in srgb, var(--sky-mid) 90%, #fff) 50%, transparent 70%); opacity: var(--fog-op); filter: none; }
+  .scene .l-m3   { background-image: url(weather/fx-mountains_3.png); background-size: auto 100%; filter: var(--mtn-filter); }
+  .scene .l-m2   { background-image: url(weather/fx-mountains_2.png); background-size: auto 100%; filter: var(--mtn-filter); }
+  .scene .l-m1   { background-image: url(weather/fx-mountains_1.png); background-size: auto 100%; filter: var(--mtn-filter); }
+  .scene .l-rk   { background-image: url(weather/fx-rocks.png); background-size: auto 100%; }
+  .scene .l-tr   { background-image: url(weather/fx-trees.png); background-size: auto 100%; }
+  .scene .l-stars { background-image: radial-gradient(circle, #fff 1px, transparent 1.4px), radial-gradient(circle, #cfd6ff .8px, transparent 1.2px); background-size: 90px 90px, 57px 57px; background-position: 0 0, 30px 20px; background-repeat: repeat; inset: 0 0 45% 0; opacity: var(--stars-op); filter: none; }
+  .scene .l-wx { opacity: var(--wx-op); filter: none; }
+  [data-weather="rain"] .scene .l-wx, [data-weather="thunder"] .scene .l-wx { inset: -20% -20% -10% -20%; transform: rotate(14deg); background-repeat: repeat;
+    background-image: radial-gradient(1px 7px at 1px 7px, rgba(205,225,245,.6) 0 100%, transparent 101%), radial-gradient(1px 5px at 1px 5px, rgba(205,225,245,.35) 0 100%, transparent 101%);
+    background-size: 16px 40px, 22px 30px; background-position: 0 0, 9px 13px; animation: rain .55s steps(6) infinite, rain2 .8s steps(6) infinite; }
+  [data-weather="rain"] .scene .l-wx { background-size: 18px 46px, 26px 34px; }
+  [data-weather="thunder"] .scene .l-wx { background-image: radial-gradient(1px 8px at 1px 8px, rgba(215,225,245,.7) 0 100%, transparent 101%), radial-gradient(1px 5px at 1px 5px, rgba(215,225,245,.4) 0 100%, transparent 101%); background-size: 12px 32px, 18px 26px; animation-duration: .4s, .6s; }
+  .scene .l-bolt { opacity: 0; filter: none; background: none; }
+  [data-weather="thunder"] .scene .l-bolt { animation: bolt 8s steps(1) infinite; }
+  .scene .l-bolt svg { position: absolute; left: 58%; top: 6%; width: 70px; height: 190px; image-rendering: pixelated; shape-rendering: crispEdges; }
+  @keyframes bolt { 0%, 90.5%, 92.5%, 94.5%, 100% { opacity: 0; } 91%, 93%, 95% { opacity: 1; } }
+  [data-weather="snow"] .scene .l-wx { background-image: radial-gradient(circle, #fff 1.5px, transparent 2.2px); background-size: 48px 48px; background-repeat: repeat; background-position: 0 0; animation: snow 9s linear infinite; }
+  .scene::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, var(--surface) 0%, color-mix(in srgb, var(--surface) 80%, transparent) 22%, transparent 45%); }
+  [data-weather="thunder"] .scene::before { content: ""; position: absolute; inset: 0; background: rgba(255,250,230,.55); opacity: 0; animation: flash 8s steps(1) infinite; z-index: 1; }
+  @keyframes drift { to { background-position-x: -1280px; } }
+  @keyframes rain { to { background-position-y: 40px; } } @keyframes rain2 { to { background-position: 9px 43px; } }
+  @keyframes snow { to { background-position: 24px 48px; } }
+  @keyframes flash { 0%, 90%, 92.5%, 94%, 96%, 100% { opacity: 0; } 91%, 93%, 95% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .scene .l-cl, .scene .l-cl2, .scene .l-wx, .scene .l-bolt, .scene::before { animation: none !important; } }
+
+  .stage { height: 132px; position: relative; margin: 0 0 .6rem; }
+  .poke { position: absolute; bottom: 0; left: 0; image-rendering: pixelated; height: 122px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); animation: patrol 16s linear infinite; }
+  /* sprites face left by default: walk left→right flipped, then back unflipped */
+  @keyframes patrol { 0% { left: 0; transform: scaleX(-1); } 48% { left: calc(100% - 110px); transform: scaleX(-1); } 50% { left: calc(100% - 110px); transform: scaleX(1); } 98% { left: 0; transform: scaleX(1); } 100% { left: 0; transform: scaleX(-1); } }
+  @media (prefers-reduced-motion: reduce) { .poke { animation: none; } }
+
+  .visual .cond { font: 15px/1.4 var(--font-ui); color: var(--nav); letter-spacing: .01em; margin: 0; font-variant-numeric: lining-nums tabular-nums; }
+  .visual .cond b { color: var(--ink); font-weight: 500; }
+  .dex { margin-top: .9rem; padding-top: .8rem; border-top: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+  .dex-name { font: 600 16px/1.4 var(--font-ui); color: var(--accent); margin: 0 0 .25rem; transition: color 1.2s; }
+  .dex-text { font: 13px/1.5 var(--font-ui); color: var(--nav); margin: 0; max-width: 42ch; }
+
+
+  .devbar { position: fixed; top: 10px; right: 10px; z-index: 9; display: flex; gap: 4px; align-items: center; font: 500 11px var(--font-ui); color: var(--faint); background: rgba(0,0,0,.5); padding: 6px 8px; border-radius: 999px; backdrop-filter: blur(6px); }
+  .devbar span { letter-spacing: .12em; text-transform: uppercase; margin-right: 4px; }
+  .devbar button { font: inherit; color: var(--nav); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 4px 9px; cursor: pointer; }
+  .devbar button:hover { color: var(--ink); border-color: var(--nav); }
+  footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--line); font: 13px/1.6 var(--font-ui); color: var(--faint); }
+
+  @media (max-width: 1080px) {
+    .layout { display: block; margin-inline: auto; width: min(100%, var(--content-width)); }
+    .visual { position: static; height: auto; min-height: 0; margin-top: 3.5rem; padding: 1.25rem; }
+    .visual::before { background: radial-gradient(ellipse 80% 80% at 50% 0%, var(--glow), transparent 70%); }
+  }
+  @media (max-width: 640px) {
+    .shell { padding: 2.5rem 1.25rem 1.25rem; }
+    body { font-size: 16px; }
+    .row { grid-template-columns: 1fr; gap: .15rem; }
+    .row time, .row .side { font-size: 13px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="devbar" aria-label="Preview only: test themes">
+  <span>test</span>
+  <button data-t="clear-day">day</button><button data-t="clear-night">night</button><button data-t="cloudy">cloudy</button><button data-t="rain">rain</button><button data-t="snow">snow</button><button data-t="thunder">storm</button><button data-t="live">live</button>
+</div>
+<div class="shell">
+<div class="layout">
+<main class="copy">
+
+
+  <h1 class="title">Dang Vu</h1>
+  <p class="handle">Matt · fullstack engineer · TypeScript, React, Next.js, Node · Hanoi</p>
+
+  <div class="bio">
+    <p>I started in 2022 as a developer trainee at FPT Software. That autumn I joined <a href="https://bravebits.co/pages/product">Bravebits</a> to work on <a href="https://pagefly.io">PageFly</a>, a Shopify page builder that <strong>200,000+</strong> stores use to build their storefronts.</p>
+    <p>Three years there. The work I am proudest of is the performance track: merchants' pages were slow, Shopify's Built for Shopify program set hard limits, and I owned getting under them. Initial load came down <strong>20%</strong> and LCP held under <strong>2.5s</strong> across merchant storefronts. Later I built Image-to-PageFly, which turns a screenshot of any design into an editable page in under a minute, and Figma2PageFly, a one-click import from Figma.</p>
+    <p>Since November 2025 I have been at <a href="https://sending.ac">sending.ac</a>, a smaller team where I own whole features end to end: Stripe billing with subscriptions, coupons and invoicing, Logto single sign-on across the product, and a sequencer integration that runs <strong>200+</strong> automated workflows a day.</p>
+    <p>On the side I contribute upstream to <a href="https://github.com/tensorzero/tensorzero">tensorzero</a> and <a href="https://github.com/nextest-rs/nextest">nextest</a>, and I rebuilt this site as a Next.js static export, <strong>165 KB</strong>, Lighthouse 100. The previous version was Rust compiled to WASM.</p>
+    <div class="cta">
+      <a class="btn" href="mailto:dangvu0502@gmail.com">Email me</a>
+      <a href="https://github.com/dangvu0502">GitHub</a>
+      <a href="https://www.linkedin.com/in/%C4%91%C4%83ng-v%C5%A9-a43920243/">LinkedIn</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Projects</h2>
+    <div class="rows">
+      <a class="row" href="https://github.com/theVuArena/vectra">
+        <span><span class="t">Vectra</span><span class="d">Build and query your own knowledge base in TypeScript, plus an MCP server for any client.</span></span>
+        <span class="side">TypeScript · RAG</span>
+      </a>
+      <a class="row" href="https://github.com/dangvu0502/homework">
+        <span><span class="t">UI Annotation Tool</span><span class="d">Create, annotate and evaluate UI element datasets for ML. Gemini-assisted labeling.</span></span>
+        <span class="side">TS · Python</span>
+      </a>
+      <a class="row" href="https://github.com/dangvu0502/dangvu0502.github.io">
+        <span><span class="t">This site</span><span class="d">Next.js static export, <strong>165 KB</strong>, Lighthouse <strong>100</strong>. Rebuilt from a Rust/WASM version.</span></span>
+        <span class="side">Next.js 16</span>
+      </a>
+    </div>
+  </section>
+
+
+
+  <section>
+    <h2>Open source</h2>
+    <div class="rows">
+      <a class="row" href="https://github.com/nextest-rs/nextest/pull/2800"><span class="t">nextest-runner: verbose flag to display test command lines</span><time>nextest #2800</time></a>
+      <a class="row" href="https://github.com/tensorzero/tensorzero/pull/3815"><span class="t">Log INFO when dynamic tools not in allowed_tools</span><time>tensorzero #3815</time></a>
+      <a class="row" href="https://github.com/tensorzero/tensorzero/pull/3714"><span class="t">Only require max_tokens when token rate limits apply</span><time>tensorzero #3714</time></a>
+      <a class="row" href="https://github.com/tensorzero/tensorzero/pull/3625"><span class="t">Make ChatCompletion and mixture-of-N config fields private</span><time>tensorzero #3625</time></a>
+    </div>
+  </section>
+
+  <footer class="site">
+    Built with Next.js, static export, on GitHub Pages. <a href="https://github.com/dangvu0502/dangvu0502.github.io">Source</a>. Previous version: Rust / Dioxus compiled to WASM, still in the git history.
+  </footer>
+</main>
+
+<aside class="visual" aria-label="Weather theme">
+  <div class="scene" aria-hidden="true"><div class="l-sky"></div><div class="l-stars"></div><div class="l-sun"></div><div class="l-cl"></div><div class="l-cl2"></div><div class="l-m3"></div><div class="l-m2"></div><div class="l-m1"></div><div class="l-rk"></div><div class="l-tr"></div><div class="l-fog"></div><div class="l-wx"></div><div class="l-bolt"><svg viewBox="0 0 14 38" aria-hidden="true"><path fill="#fff7c2" d="M8 0h5l-4 12h4L4 38l3-18H3z"/><path fill="#ffe66b" d="M8 1h3l-4 12h3L6 30l2-16H5z" opacity=".9"/></svg></div></div>
+  <div class="stage"><img class="poke" id="poke" src="weather/poke-cloudy.gif" alt="" width="55" height="61"></div>
+  <p class="cond" id="cond">Looking up your sky…</p>
+  <div class="dex" id="dex">
+    <p class="dex-name"><b id="dx-name">Castform</b></p>
+    <p class="dex-text" id="dx-text">Its form changes depending on the weather.</p>
+  </div>
+</aside>
+</div>
+</div>
+
+<script>
+  const root = document.documentElement, cond = document.getElementById("cond");
+  const NAME = { "clear-day": "clear", "clear-night": "clear night", cloudy: "overcast", rain: "rain", snow: "snow", thunder: "thunderstorm" };
+  function toTheme(c, day) { if (c >= 95) return "thunder"; if ((c >= 71 && c <= 77) || c === 85 || c === 86) return "snow"; if (c >= 51) return "rain"; if (c >= 2) return "cloudy"; return day ? "clear-day" : "clear-night"; }
+  function apply(theme, city, temp, hour) {
+    if (city) cond.dataset.city = city;
+    if (theme) root.dataset.weather = theme; else delete root.dataset.weather;
+    const h = hour ?? new Date().getHours() + new Date().getMinutes() / 60;
+    const parts = [temp != null ? Math.round(temp) + "°" : null, `<b>${theme ? NAME[theme] : "default palette"}</b>`, city, hour != null ? String(Math.floor(h)).padStart(2, "0") + ":" + String(Math.round((h % 1) * 60)).padStart(2, "0") : null].filter(Boolean);
+    cond.innerHTML = parts.join(" · ");
+    summon(theme || "");
+    cond.innerHTML = parts.join(" · ");
+  }
+  // Pokémon pools per weather. Random pick per visit, sprite + dex text fetched live from PokeAPI.
+  const POOL = {
+    "":            [351, 333, 426],
+    cloudy:        [351, 333, 426, 358],
+    "clear-day":   [10013, 338, 637, 192],
+    "clear-night": [337, 92, 200, 425, 488],
+    rain:          [10014, 382, 592, 535, 270],
+    snow:          [10015, 361, 582, 615, 478],
+    thunder:       [279, 186, 593, 226, 641]
+  };
+  const SPRITE = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
+  const cap = w => w.charAt(0).toUpperCase() + w.slice(1);
+  async function summon(theme) {
+    const key = "poke:" + theme; let d = null;
+    try { d = JSON.parse(sessionStorage.getItem(key)); } catch {}
+    if (!d) {
+      const pool = POOL[theme]; const id = pool[Math.floor(Math.random() * pool.length)];
+      try {
+        const pk = await getJson(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        const sp = await getJson(pk.species.url);
+        const en = sp.flavor_text_entries.filter(e => e.language.name === "en");
+        const form = pk.name.includes("-") ? cap(pk.name.split("-")[1]) + " Form" : null;
+        d = { id, name: cap(sp.name), form, genus: (sp.genera.find(g => g.language.name === "en") || {}).genus || "",
+              types: pk.types.map(t => t.type.name), text: (en[en.length - 1] || {}).flavor_text?.replace(/[\n\f]/g, " ") || "" };
+        try { sessionStorage.setItem(key, JSON.stringify(d)); } catch {}
+      } catch { d = { id: 351, name: "Castform", form: null, genus: "Weather Pokémon", types: ["normal"], text: "Its form changes depending on the weather." }; }
+    }
+    document.getElementById("poke").src = SPRITE(d.id);
+    document.getElementById("dx-name").textContent = d.name;
+    document.getElementById("dx-text").textContent = d.text;
+  }
+  async function getJson(u) { const r = await fetch(u, { signal: AbortSignal.timeout(3000) }); if (!r.ok) throw new Error(r.status); return r.json(); }
+  (async () => {
+    let t0 = performance.now(), loc, wx;
+    try { loc = await getJson("https://ipwho.is/"); }
+    catch { apply("", null); return; }
+    t0 = performance.now();
+    try { wx = await getJson(`https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current=weather_code,is_day,temperature_2m&timezone=auto`); }
+    catch { apply("", loc.region || loc.city); return; }
+    const theme = toTheme(wx.current.weather_code, wx.current.is_day === 1);
+   
+   
+    const local = new Date(wx.current.time); apply(theme, loc.region || loc.city, wx.current.temperature_2m, local.getHours() + local.getMinutes() / 60);
+  })();
+  const HOUR = { "clear-day": 13.5, "clear-night": 22, cloudy: 16, rain: 14, snow: 9.5, thunder: 17.5 };
+  document.querySelectorAll(".devbar button").forEach(b => b.addEventListener("click", () => {
+    const t = b.dataset.t;
+    if (t === "live") { location.reload(); return; }
+    try { sessionStorage.removeItem("poke:" + t); } catch {}
+    apply(t, cond.dataset.city || "Hanoi", { "clear-day": 31, "clear-night": 24, cloudy: 30, rain: 26, snow: -2, thunder: 27 }[t], HOUR[t]);
+  }));
+</script>
+</body>
+</html>
