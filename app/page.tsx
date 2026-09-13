@@ -1,4 +1,5 @@
 import WeatherPanel from "@/components/WeatherPanel";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import story from "@/data/story.json";
 import projects from "@/data/pinned-projects.json";
 import oss from "@/data/oss-contributions.json";
@@ -60,6 +61,7 @@ export default function Home() {
         </main>
 
         <WeatherPanel />
+        <ThemeSwitcher />
       </div>
     </div>
   );

@@ -6,8 +6,7 @@ type Theme = "clear-day" | "clear-night" | "cloudy" | "rain" | "snow" | "thunder
 type Weather = { theme: Theme; city: string | null; temp: number | null; hour: number | null };
 type Mon = { id: number; name: string; form: string | null; text: string };
 
-const KEY = "weather-theme";
-const TTL = 60 * 60 * 1000;
+const TTL = 60 * 60 * 1000; // creature pick only; weather is always fetched fresh
 const NAME: Record<Theme, string> = { "clear-day": "clear", "clear-night": "clear night", cloudy: "overcast", rain: "rain", snow: "snow", thunder: "thunderstorm" };
 
 // Per-weather Pokémon pools (PokeAPI ids). Random pick per visit, cached per theme.
@@ -31,7 +30,7 @@ const GREETING: Record<Theme | "", string[]> = {
   "clear-day": ["Sunny in Hanoi today. Hope the light is good wherever you are.", "Clear skies here. Have a good one out there.", "Bright day in Hanoi. Thanks for visiting."],
   "clear-night": ["Clear night in Hanoi. Thanks for stopping by this late.", "Stars are out here. Nice of you to drop in.", "Quiet night in Hanoi. Glad you came."],
   cloudy: ["Grey over Hanoi right now. Good weather for staying in and reading.", "Overcast here. Take it easy today.", "Cloudy in Hanoi. Thanks for the visit."],
-  rain: ["It's raining in Hanoi. Stay dry out there.", "Rain here today. Hope you kept an umbrella.", "Wet afternoon in Hanoi. Thanks for coming by."],
+  rain: ["It's raining in Hanoi. Stay dry out there.", "Rain here today. Hope you kept an umbrella.", "Wet one in Hanoi. Thanks for coming by."],
   snow: ["Snow where you are. Keep warm.", "Cold out there. Wrap up well.", "Snowing in Hanoi, apparently. Stay cosy."],
   thunder: ["Storm over Hanoi. Hope you're somewhere safe and dry.", "Thunder here. Mind how you go.", "Rough weather in Hanoi. Take care out there."],
 };
@@ -110,7 +109,8 @@ async function summon(theme: Theme | ""): Promise<Mon> {
 }
 
 function greet(theme: Theme | "", hour: number | null): string {
-  if (hour != null && (hour >= 23 || hour < 5)) return LATE;
+  const h = hour ?? new Date().getHours();
+  if (h >= 23 || h < 5) return LATE;
   const lines = GREETING[theme];
   return lines[Math.floor(Math.random() * lines.length)];
 }
@@ -130,14 +130,11 @@ export default function WeatherPanel() {
   useEffect(() => {
     let alive = true;
     (async () => {
-      let data = cached<Weather>(KEY);
-      if (!data) {
-        try {
-          data = await lookup();
-          store(KEY, data);
-        } catch {
-          data = null; // silent fallback: default theme stays
-        }
+      let data: Weather | null = null;
+      try {
+        data = await lookup(); // fetched every visit: cached weather drifts from the real sky
+      } catch {
+        data = null; // silent fallback: default theme stays
       }
       if (!alive) return;
       if (data) document.documentElement.dataset.weather = data.theme;

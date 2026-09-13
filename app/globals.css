@@ -91,6 +91,13 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 .dex-name { font: 600 16px/1.4 var(--font-ui); color: var(--color-accent); margin: 0 0 .25rem; transition: color 1.2s; }
 .dex-text { font: 13px/1.5 var(--font-ui); color: var(--color-nav); margin: 0; max-width: 42ch; }
 
+/* dev-only weather switcher, rendered on localhost only */
+.devbar { position: fixed; top: 10px; right: 10px; z-index: 9; display: flex; gap: 4px; align-items: center; flex-wrap: wrap; max-width: 60vw; justify-content: flex-end; font: 500 11px var(--font-ui); color: var(--color-faint); background: rgba(0,0,0,.55); padding: 6px 8px; border-radius: 999px; backdrop-filter: blur(6px); }
+.devbar span { letter-spacing: .12em; text-transform: uppercase; margin-right: 4px; }
+.devbar button { font: inherit; color: var(--color-nav); background: transparent; border: 1px solid var(--color-line); border-radius: 999px; padding: 4px 9px; cursor: pointer; }
+.devbar button:hover { color: var(--color-ink); border-color: var(--color-nav); }
+.devbar button[aria-pressed="true"] { color: var(--color-ink); border-color: var(--color-accent); }
+
 @media (max-width: 1080px) {
   .layout { display: block; margin-inline: auto; width: min(100%, var(--content-width)); }
   .visual { position: relative; top: auto; height: 520px; min-height: 0; margin-top: 3.5rem; padding: 1.25rem; }
