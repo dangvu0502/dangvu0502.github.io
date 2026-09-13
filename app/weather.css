@@ -1,46 +1,69 @@
-/* Weather-reactive theme. Base palette (no data-weather) is the default. */
+/* Weather-reactive theme. Base palette (no data-weather) is the default.
+   Every --color-accent-solid keeps white text at >= 4.5:1 (WCAG AA). */
 :root {
   --ambient: transparent;
 }
 
 body {
-  background-image: radial-gradient(ellipse 80% 50% at 50% -10%, var(--ambient), transparent 70%);
+  background-image: radial-gradient(ellipse 120% 60% at 50% -15%, var(--ambient), transparent 70%);
   background-attachment: fixed;
   transition: background-color 1.2s ease, color 1.2s ease;
 }
 
 [data-weather="clear-day"] {
-  --color-accent: #d9843f;
-  --color-page: #14100a;
-  --ambient: rgba(217, 132, 63, 0.14);
+  --color-accent: #e08a3c;
+  --color-accent-solid: #a85c1a;
+  --color-accent-hover: #8f4d14;
+  --color-page: #17110a;
+  --color-card: #171210;
+  --color-line: #2a2018;
+  --ambient: rgba(224, 138, 60, 0.32);
 }
 
 [data-weather="clear-night"] {
-  --color-accent: #b07dc7;
-  --color-page: #0b0a14;
-  --ambient: rgba(120, 100, 200, 0.14);
+  --color-accent: #b98ad0;
+  --color-accent-solid: #7a4f9e;
+  --color-accent-hover: #66408a;
+  --color-page: #0b0a16;
+  --color-card: #12101d;
+  --color-line: #221e33;
+  --ambient: rgba(130, 100, 220, 0.30);
 }
 
 [data-weather="cloudy"] {
-  --color-accent: #a08a7a;
-  --color-page: #0f0e0e;
-  --ambient: rgba(160, 160, 170, 0.08);
+  /* keep default terracotta; just a soft grey haze */
+  --color-page: #101010;
+  --color-card: #151515;
+  --color-line: #262626;
+  --ambient: rgba(170, 170, 180, 0.16);
 }
 
 [data-weather="rain"] {
-  --color-accent: #5f9bb5;
-  --color-page: #0a0e12;
-  --ambient: rgba(80, 140, 180, 0.12);
+  --color-accent: #6fb0cc;
+  --color-accent-solid: #2f6f8f;
+  --color-accent-hover: #275d78;
+  --color-page: #090e14;
+  --color-card: #0f151c;
+  --color-line: #1c2731;
+  --ambient: rgba(70, 140, 190, 0.30);
 }
 
 [data-weather="snow"] {
-  --color-accent: #9cc4d8;
-  --color-page: #0e1114;
-  --ambient: rgba(200, 220, 235, 0.10);
+  --color-accent: #a9d0e4;
+  --color-accent-solid: #366a82;
+  --color-accent-hover: #2c5769;
+  --color-page: #0e1216;
+  --color-card: #141a1f;
+  --color-line: #232c33;
+  --ambient: rgba(200, 225, 240, 0.26);
 }
 
 [data-weather="thunder"] {
-  --color-accent: #d4b04a;
-  --color-page: #0c0a0e;
-  --ambient: rgba(212, 176, 74, 0.10);
+  --color-accent: #e0b94a;
+  --color-accent-solid: #8a6d14;
+  --color-accent-hover: #74590f;
+  --color-page: #0d0a10;
+  --color-card: #141017;
+  --color-line: #261f2c;
+  --ambient: rgba(224, 185, 74, 0.26);
 }
