@@ -23,6 +23,19 @@ const POOL: Record<Theme | "", number[]> = {
 };
 const SPRITE = (id: number) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`;
 const FALLBACK_MON: Mon = { id: 351, name: "Castform", form: null, text: "Its form changes depending on the weather." };
+
+// A greeting from the creature, picked per weather. Written, not generated:
+// instant, works in every browser, no model download.
+const GREETING: Record<Theme | "", string[]> = {
+  "": ["Thanks for stopping by.", "Good to see you here.", "Hello from Hanoi."],
+  "clear-day": ["Sunny in Hanoi today. Hope the light is good wherever you are.", "Clear skies here. Have a good one out there.", "Bright day in Hanoi. Thanks for visiting."],
+  "clear-night": ["Clear night in Hanoi. Thanks for stopping by this late.", "Stars are out here. Nice of you to drop in.", "Quiet night in Hanoi. Glad you came."],
+  cloudy: ["Grey over Hanoi right now. Good weather for staying in and reading.", "Overcast here. Take it easy today.", "Cloudy in Hanoi. Thanks for the visit."],
+  rain: ["It's raining in Hanoi. Stay dry out there.", "Rain here today. Hope you kept an umbrella.", "Wet afternoon in Hanoi. Thanks for coming by."],
+  snow: ["Snow where you are. Keep warm.", "Cold out there. Wrap up well.", "Snowing in Hanoi, apparently. Stay cosy."],
+  thunder: ["Storm over Hanoi. Hope you're somewhere safe and dry.", "Thunder here. Mind how you go.", "Rough weather in Hanoi. Take care out there."],
+};
+const LATE = "Late where you are. Get some sleep after this.";
 const cap = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
 
 // WMO weather interpretation codes, grouped.
@@ -96,6 +109,12 @@ async function summon(theme: Theme | ""): Promise<Mon> {
   }
 }
 
+function greet(theme: Theme | "", hour: number | null): string {
+  if (hour != null && (hour >= 23 || hour < 5)) return LATE;
+  const lines = GREETING[theme];
+  return lines[Math.floor(Math.random() * lines.length)];
+}
+
 function fmtHour(h: number) {
   return `${String(Math.floor(h)).padStart(2, "0")}:${String(Math.round((h % 1) * 60)).padStart(2, "0")}`;
 }
@@ -105,6 +124,8 @@ export default function WeatherPanel() {
   const [mon, setMon] = useState<Mon | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [settled, setSettled] = useState(false);
+  const [hello, setHello] = useState<string | null>(null);
+  const [bubbleOut, setBubbleOut] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -123,7 +144,9 @@ export default function WeatherPanel() {
       setWx(data);
       setSettled(true);
       const m = await summon(data?.theme ?? "");
-      if (alive) setMon(m);
+      if (!alive) return;
+      setMon(m);
+      setHello(greet(data?.theme ?? "", data?.hour ?? null));
     })();
     return () => {
       alive = false;
@@ -157,6 +180,11 @@ export default function WeatherPanel() {
         </svg>
         {mon && (
           <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
+            {hello && loaded && (
+              <p className={"bubble" + (bubbleOut ? " bubble-out" : "")} onAnimationEnd={(e) => e.animationName.includes("bubblein") && setTimeout(() => setBubbleOut(true), 8000)}>
+                <span className="bubble-text">{hello}</span>
+              </p>
+            )}
             <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
           </div>
         )}
