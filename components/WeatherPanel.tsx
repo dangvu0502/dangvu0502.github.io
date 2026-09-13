@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Theme = "clear-day" | "clear-night" | "cloudy" | "rain" | "snow" | "thunder";
 type Weather = { theme: Theme; city: string | null; temp: number | null; hour: number | null };
@@ -35,6 +35,18 @@ const GREETING: Record<Theme | "", string[]> = {
   thunder: ["Storm over Hanoi. Hope you're somewhere safe and dry.", "Thunder here. Mind how you go.", "Rough weather in Hanoi. Take care out there."],
 };
 const LATE = "Late where you are. Get some sleep after this.";
+
+// Good wishes for whoever is visiting. Shown after the weather line, cycling.
+const WISHES = [
+  "May good luck find you often.",
+  "Wishing you an easy life.",
+  "Hope the rest of your day is kind.",
+  "May things go your way this week.",
+  "Wishing you steady days and good sleep.",
+  "Hope something good is waiting for you.",
+  "May your work feel lighter tomorrow.",
+  "Wishing you calm and good company.",
+];
 const cap = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
 
 // WMO weather interpretation codes, grouped.
@@ -108,11 +120,30 @@ async function summon(theme: Theme | ""): Promise<Mon> {
   }
 }
 
+// Glue the last two words together so a lone word never wraps to its own line.
+function noOrphan(text: string): string {
+  return text.replace(/ (\S+)$/, "\u00a0$1");
+}
+
 function greet(theme: Theme | "", hour: number | null): string {
   const h = hour ?? new Date().getHours();
   if (h >= 23 || h < 5) return LATE;
   const lines = GREETING[theme];
   return lines[Math.floor(Math.random() * lines.length)];
+}
+
+function shuffle<T>(list: T[]): T[] {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+// Opening line is about the weather; the rest are wishes, in a random order.
+function script(theme: Theme | "", hour: number | null): string[] {
+  return [greet(theme, hour), ...shuffle(WISHES).slice(0, 4)];
 }
 
 function fmtHour(h: number) {
@@ -124,8 +155,12 @@ export default function WeatherPanel() {
   const [mon, setMon] = useState<Mon | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [settled, setSettled] = useState(false);
-  const [hello, setHello] = useState<string | null>(null);
+  const [lines, setLines] = useState<string[]>([]);
+  const [line, setLine] = useState(0);
   const [bubbleOpen, setBubbleOpen] = useState(true);
+  const wxRef = useRef<Weather | null>(null);
+  const previewRef = useRef(0);
+  wxRef.current = wx;
 
   useEffect(() => {
     let alive = true;
@@ -143,12 +178,43 @@ export default function WeatherPanel() {
       const m = await summon(data?.theme ?? "");
       if (!alive) return;
       setMon(m);
-      setHello(greet(data?.theme ?? "", data?.hour ?? null));
+      setLines(script(data?.theme ?? "", data?.hour ?? null));
+      setLine(0);
     })();
     return () => {
       alive = false;
     };
   }, []);
+
+  // Dev switcher (localhost only) asks for a different sky: swap creature and
+  // greeting too, not just the scene.
+  useEffect(() => {
+    const onPreview = async (e: Event) => {
+      const theme = (e as CustomEvent<Theme | "">).detail;
+      const run = ++previewRef.current; // ignore results from a superseded click
+      const prev = wxRef.current;
+      setLoaded(false);
+      setMon(null);
+      setBubbleOpen(true);
+      setWx(theme ? { theme, city: prev?.city ?? "Hanoi", temp: prev?.temp ?? null, hour: prev?.hour ?? null } : null);
+      setSettled(true);
+      const m = await summon(theme);
+      if (previewRef.current !== run) return;
+      setMon(m);
+      setLines(script(theme, prev?.hour ?? null));
+      setLine(0);
+    };
+    window.addEventListener("weather-preview", onPreview);
+    return () => window.removeEventListener("weather-preview", onPreview);
+  }, []);
+
+  useEffect(() => {
+    if (!bubbleOpen || lines.length < 2) return;
+    const id = setInterval(() => setLine((i) => (i + 1) % lines.length), 15000);
+    return () => clearInterval(id);
+  }, [bubbleOpen, lines]);
+
+  const hello = lines[line] ?? null;
 
   const parts = wx
     ? [wx.temp != null ? `${Math.round(wx.temp)}°` : null, `<b>${NAME[wx.theme]}</b>`, wx.city, wx.hour != null ? fmtHour(wx.hour) : null].filter(Boolean)
@@ -177,7 +243,11 @@ export default function WeatherPanel() {
         </svg>
         {mon && (
           <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
-            {hello && loaded && bubbleOpen && <p className="bubble">{hello}</p>}
+            {hello && loaded && bubbleOpen && (
+              <p className="bubble" key={line}>
+                {noOrphan(hello)}
+              </p>
+            )}
             <div className="poke-flip">
               <button
                 type="button"

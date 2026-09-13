@@ -71,10 +71,14 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 .poke-in .poke-flip { animation: face 16s steps(1) infinite; }
 .poke { display: block; image-rendering: pixelated; height: 122px; width: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); transform-origin: 50% 100%; }
 .poke-in .poke { animation: popin .5s cubic-bezier(.2,1.4,.4,1) both; }
-.bubble { position: absolute; bottom: 126px; left: 50%; transform: translateX(-50%); width: max-content; max-width: min(240px, 62vw); margin: 0; padding: 7px 10px; font: 500 12px/1.4 var(--font-ui); color: #23201c; background: #f4f0e8; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.45); text-wrap: pretty; animation: bubblein .45s cubic-bezier(.2,1.4,.4,1) both; z-index: 2; }
+/* Rides with the creature. The wrapper is 110px wide and travels the full
+   stage, so the bubble is centred on it and pulled back from either edge with
+   margins, which keeps it inside the panel at both ends of the walk.
+   text-wrap: balance evens the line lengths so no short phrase dangles. */
+.bubble { position: absolute; bottom: 126px; left: 50%; translate: -50%; width: max-content; max-width: min(26ch, 58vw); margin: 0; padding: 7px 10px; font: 500 12px/1.45 var(--font-ui); color: #23201c; text-align: center; background: #f4f0e8; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.45); text-wrap: balance; hyphens: none; animation: bubblein .45s cubic-bezier(.2,1.4,.4,1) both; z-index: 2; }
 .bubble::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border: 5px solid transparent; border-top-color: #f4f0e8; border-bottom: 0; }
 
-@keyframes bubblein { from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(.85); } to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } }
+@keyframes bubblein { from { opacity: 0; transform: translateY(6px) scale(.85); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .poke-button { display: block; padding: 0; border: 0; background: none; cursor: pointer; }
 .poke-button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; border-radius: 6px; }
 .ball { position: absolute; bottom: 10px; left: 24px; width: 44px; height: 44px; image-rendering: pixelated; transform-origin: 50% 100%; animation: wobble 1.6s ease-in-out infinite; filter: drop-shadow(0 6px 10px rgba(0,0,0,.55)); }
@@ -82,7 +86,7 @@ footer.site { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(-
 @keyframes wobble { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-14deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
 @keyframes burst { 0% { transform: scale(1); opacity: 1; filter: brightness(1); } 40% { transform: scale(1.35); opacity: 1; filter: brightness(3); } 100% { transform: scale(.4); opacity: 0; } }
 @keyframes popin { from { transform: scale(.2); filter: brightness(4); } to { transform: scale(1); filter: brightness(1); } }
-@keyframes walk { 0% { left: 0; } 48% { left: calc(100% - 110px); } 50% { left: calc(100% - 110px); } 98% { left: 0; } 100% { left: 0; } }
+@keyframes walk { 0% { left: 8%; } 48% { left: calc(92% - 110px); } 50% { left: calc(92% - 110px); } 98% { left: 8%; } 100% { left: 8%; } }
 @keyframes face { 0% { transform: scaleX(-1); } 50% { transform: scaleX(1); } 100% { transform: scaleX(-1); } }
 .cond { font: 15px/1.4 var(--font-ui); color: var(--color-nav); letter-spacing: .01em; margin: 0; }
 .cond b { color: var(--color-ink); font-weight: 500; }

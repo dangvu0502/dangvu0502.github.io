@@ -29,6 +29,12 @@ export default function ThemeSwitcher() {
     if (t) document.documentElement.dataset.weather = t;
     else delete document.documentElement.dataset.weather;
     setActive(t);
+    try {
+      sessionStorage.removeItem("poke:" + t); // reroll rather than reuse the cached pick
+    } catch {
+      /* storage unavailable */
+    }
+    window.dispatchEvent(new CustomEvent("weather-preview", { detail: t }));
   };
 
   const reset = () => {
