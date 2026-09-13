@@ -5,8 +5,10 @@
 }
 
 body {
-  background-image: radial-gradient(ellipse 120% 60% at 50% -15%, var(--ambient), transparent 70%);
-  background-attachment: fixed;
+  /* ponytail: no background-attachment: fixed, it forces full-page repaints and cost ~1s LCP */
+  background-image: radial-gradient(ellipse 120% 100% at 50% -20%, var(--ambient), transparent 70%);
+  background-repeat: no-repeat;
+  background-size: 100% 700px;
   transition: background-color 1.2s ease, color 1.2s ease;
 }
 
