@@ -23,6 +23,10 @@ All content lives in `data/*.json`, imported at build time:
 
 Refresh script: `scripts/fetch-oss-contributions` (Rust), run by `.github/workflows/update-oss-contributions.yml`.
 
+## Weather-reactive theme
+
+Progressive enhancement in `components/WeatherTheme.tsx` + `app/weather.css`. After mount: IP lookup via ipwho.is, then Open-Meteo current `weather_code` + `is_day`, mapped to one of six themes (`clear-day`, `clear-night`, `cloudy`, `rain`, `snow`, `thunder`) and applied as `data-weather` on `<html>`. Themes are CSS-variable overrides only. Keyless, no geolocation prompt, 3s timeouts, silent fallback to the default palette, 1h `sessionStorage` cache.
+
 ## Deploy
 
 Push to `main` runs `.github/workflows/deploy.yml`: `npm ci && npm run build`, uploads `./out` to Pages.

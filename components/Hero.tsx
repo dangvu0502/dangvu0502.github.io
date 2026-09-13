@@ -1,3 +1,4 @@
+import WeatherTheme from "./WeatherTheme";
 
 const iconClass =
   "w-9 h-9 bg-raised border border-edge rounded-md flex items-center justify-center hover:bg-edge hover:-translate-y-0.5 transition-all duration-300";
@@ -28,6 +29,7 @@ export default function Hero() {
         </div>
 
         <div className="mb-8">
+          <WeatherTheme />
           <p className="mb-4 text-base leading-relaxed">
             I&apos;m <strong>Dang Vu (Matt)</strong>, a fullstack developer based in Vietnam.
           </p>

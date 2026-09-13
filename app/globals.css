@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./weather.css";
 
 @theme {
   --color-accent: #c46846;
