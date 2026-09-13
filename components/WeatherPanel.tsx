@@ -179,22 +179,22 @@ export default function WeatherPanel() {
           <path fill="#f4f0e8" d="M7 7h2v2H7z" />
         </svg>
         {mon && (
-          <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
+          <>
             {hello && loaded && bubbleOpen && (
-              <p className="bubble">
-                <span className="bubble-text">{hello}</span>
-              </p>
+              <p className="bubble">{hello}</p>
             )}
-            <button
-              type="button"
-              className="poke-button"
-              aria-label={bubbleOpen ? "Hide the message" : "Show the message"}
-              aria-expanded={bubbleOpen}
-              onClick={() => setBubbleOpen((v) => !v)}
-            >
-              <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
-            </button>
-          </div>
+            <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
+              <button
+                type="button"
+                className="poke-button"
+                aria-label={bubbleOpen ? "Hide the message" : "Show the message"}
+                aria-expanded={bubbleOpen}
+                onClick={() => setBubbleOpen((v) => !v)}
+              >
+                <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
+              </button>
+            </div>
+          </>
         )}
       </div>
       <p className="cond" dangerouslySetInnerHTML={{ __html: parts.join(" · ") }} />
