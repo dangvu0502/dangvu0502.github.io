@@ -125,7 +125,7 @@ export default function WeatherPanel() {
   const [loaded, setLoaded] = useState(false);
   const [settled, setSettled] = useState(false);
   const [hello, setHello] = useState<string | null>(null);
-  const [bubbleOut, setBubbleOut] = useState(false);
+  const [bubbleOpen, setBubbleOpen] = useState(true);
 
   useEffect(() => {
     let alive = true;
@@ -180,12 +180,20 @@ export default function WeatherPanel() {
         </svg>
         {mon && (
           <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
-            {hello && loaded && (
-              <p className={"bubble" + (bubbleOut ? " bubble-out" : "")} onAnimationEnd={(e) => e.animationName.includes("bubblein") && setTimeout(() => setBubbleOut(true), 8000)}>
+            {hello && loaded && bubbleOpen && (
+              <p className="bubble">
                 <span className="bubble-text">{hello}</span>
               </p>
             )}
-            <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
+            <button
+              type="button"
+              className="poke-button"
+              aria-label={bubbleOpen ? "Hide the message" : "Show the message"}
+              aria-expanded={bubbleOpen}
+              onClick={() => setBubbleOpen((v) => !v)}
+            >
+              <img className="poke" src={SPRITE(mon.id)} alt="" width={55} height={61} onLoad={() => setLoaded(true)} />
+            </button>
           </div>
         )}
       </div>
