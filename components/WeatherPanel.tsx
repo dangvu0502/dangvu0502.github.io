@@ -208,13 +208,26 @@ export default function WeatherPanel() {
     return () => window.removeEventListener("weather-preview", onPreview);
   }, []);
 
+  const [shown, setShown] = useState<string | null>(null);
+  const [fading, setFading] = useState(false);
+
   useEffect(() => {
     if (!bubbleOpen || lines.length < 2) return;
-    const id = setInterval(() => setLine((i) => (i + 1) % lines.length), 15000);
+    const id = setInterval(() => {
+      setFading(true); // fade the current line out, swap at the halfway point
+      setTimeout(() => {
+        setLine((i) => (i + 1) % lines.length);
+        setFading(false);
+      }, 700);
+    }, 15000);
     return () => clearInterval(id);
   }, [bubbleOpen, lines]);
 
-  const hello = lines[line] ?? null;
+  useEffect(() => {
+    setShown(lines[line] ?? null);
+  }, [lines, line]);
+
+  const hello = shown;
 
   const parts = wx
     ? [wx.temp != null ? `${Math.round(wx.temp)}°` : null, `<b>${NAME[wx.theme]}</b>`, wx.city, wx.hour != null ? fmtHour(wx.hour) : null].filter(Boolean)
@@ -244,8 +257,10 @@ export default function WeatherPanel() {
         {mon && (
           <div className={"poke-wrap" + (loaded ? " poke-in" : "")}>
             {hello && loaded && bubbleOpen && (
-              <p className="bubble" key={line}>
-                {noOrphan(hello)}
+              <p className={"bubble" + (fading ? " bubble-fade" : "")}>
+                <span key={line} className="bubble-line">
+                  {noOrphan(hello)}
+                </span>
               </p>
             )}
             <div className="poke-flip">
