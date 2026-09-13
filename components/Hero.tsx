@@ -43,7 +43,7 @@ export default function Hero() {
           </p>
           <a
             href="mailto:dangvu0502@gmail.com"
-            className="inline-block mt-2.5 px-4 py-2 bg-accent text-white rounded-md font-medium hover:bg-accent-hover transition-colors duration-300"
+            className="inline-block mt-2.5 px-4 py-2 bg-accent-solid text-white rounded-md font-medium hover:bg-accent-hover transition-colors duration-300"
           >
             Hire me 🚀
           </a>

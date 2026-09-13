@@ -2,11 +2,12 @@
 
 @theme {
   --color-accent: #c46846;
-  --color-accent-hover: #b85a38;
+  --color-accent-hover: #9c4a2a;
+  --color-accent-solid: #a8522f; /* white text on this passes WCAG AA (5.5:1); raw accent is 3.9:1 */
   --color-ink: #e8dfd6;
   --color-body: #b0b0b0;
   --color-muted: #9ca3af;
-  --color-faint: #6b7280;
+  --color-faint: #8b8f98; /* 5.4:1 on card; old #6b7280 was 3.7:1 */
   --color-line: #1f1f1f;
   --color-card: #111111;
   --color-raised: #1a1a1a;
