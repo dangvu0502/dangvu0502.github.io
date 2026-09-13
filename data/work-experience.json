@@ -1,11 +1,30 @@
 [
   {
+    "company": "sending.ac",
+    "company_site": "https://sending.ac",
+    "role": "Software Engineer",
+    "location": "Remote",
+    "dates": "Nov 2025 - Present",
+    "logo": null,
+    "highlights": [
+      "Integrated Logto SSO for authentication across the platform",
+      "Built Stripe billing: subscriptions, coupons, and invoicing",
+      "Sequencer integration running 200+ automated workflows per day"
+    ]
+  },
+  {
     "company": "Bravebits",
     "company_site": "https://bravebits.co/pages/product",
     "role": "Full Stack Developer",
     "location": "Vietnam",
     "dates": "Sep 2022 - Aug 2025",
-    "logo": "bravebits-logo.svg"
+    "logo": "bravebits-logo.svg",
+    "highlights": [
+      "Core developer on PageFly, a Shopify page builder with 200k+ active users",
+      "Built for Shopify performance work: -20% initial load, LCP under 2.5s",
+      "Image-to-PageFly: AI converts a design screenshot to an editable page in under 1 minute",
+      "Figma2PageFly: one-click Figma import into the page builder"
+    ]
   },
   {
     "company": "FPT Software",
@@ -16,4 +35,3 @@
     "logo": "fpt-software-logo.png"
   }
 ]
-

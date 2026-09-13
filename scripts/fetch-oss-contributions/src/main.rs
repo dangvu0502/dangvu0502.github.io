@@ -136,7 +136,7 @@ struct RepositoryQueryResponse {
     items: Vec<Repository>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Project {
     name: String,
     description: Option<String>,
@@ -199,8 +199,22 @@ fn main() -> Result<()> {
     let repositories = fetch_user_repositories(&client, &token, &username)?;
     println!("Found {} repositories", repositories.len());
 
-    let projects = transform_repository_data(repositories);
+    let mut projects = transform_repository_data(repositories);
     println!("Found {} projects", projects.len());
+
+    // Keep hand-written descriptions from data/recent-projects.json when GitHub has none.
+    let existing: Vec<Project> = fs::read_to_string("data/recent-projects.json")
+        .ok()
+        .and_then(|s| serde_json::from_str(&s).ok())
+        .unwrap_or_default();
+    for p in &mut projects {
+        if p.description.is_none() {
+            p.description = existing
+                .iter()
+                .find(|e| e.link == p.link)
+                .and_then(|e| e.description.clone());
+        }
+    }
 
     let prs = fetch_user_pull_requests(&client, &token, &username)?;
     println!("Found {} pull requests", prs.len());

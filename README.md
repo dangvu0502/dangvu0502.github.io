@@ -1,26 +1,28 @@
-# Development
+# dangvu0502.github.io
 
-Source code for my portfolio website. Built with Dioxus and Tailwind CSS.
+Personal portfolio. Next.js 16 (App Router) static export, TypeScript, Tailwind CSS 4. Deployed to GitHub Pages.
 
-### Tailwind
-1. Install npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-2. Install the Tailwind CSS CLI: https://tailwindcss.com/docs/installation
-3. Run the following command in the root of the project to start the Tailwind CSS compiler:
+Previous version was Rust/Dioxus compiled to WASM — see git history before the Next.js rewrite (Sep 2026).
 
-```bash
-npx tailwindcss -i ./tailwind.css -o ./assets/tailwind.css --watch
-```
-
-### Serving Your App
-
-Run the following command in the root of your project to start developing with the default platform:
+## Develop
 
 ```bash
-dx serve
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # static site in ./out
 ```
 
-To run for a different platform, use the `--platform platform` flag. E.g.
-```bash
-dx serve --platform desktop
-```
+## Content
 
+All content lives in `data/*.json`, imported at build time:
+
+- `work-experience.json` — jobs, with optional `highlights[]`
+- `pinned-projects.json` — hand-curated
+- `recent-projects.json` — repos refreshed monthly by CI; hand-written `description` values survive the refresh when GitHub has none
+- `oss-contributions.json` — refreshed monthly by CI, do not hand-edit
+
+Refresh script: `scripts/fetch-oss-contributions` (Rust), run by `.github/workflows/update-oss-contributions.yml`.
+
+## Deploy
+
+Push to `main` runs `.github/workflows/deploy.yml`: `npm ci && npm run build`, uploads `./out` to Pages.
