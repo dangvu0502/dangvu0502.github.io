@@ -14,7 +14,7 @@ export default function Home() {
       <div className="layout">
         <main className="copy">
           <h1 className="title">{s.name}</h1>
-          <p className="handle">{s.line}</p>
+          {s.line && <p className="handle">{s.line}</p>}
 
           <div className="bio">
             {s.paragraphs.map((p) => (
