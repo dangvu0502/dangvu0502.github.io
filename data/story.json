@@ -7,7 +7,7 @@
   "paragraphs": [
     "I started in 2022 as a developer trainee at FPT Software. Six months of learning that most of software is other people. That autumn I joined <a href=\"https://bravebits.co/pages/product\">Bravebits</a> and spent three years on <a href=\"https://pagefly.io\">PageFly</a>, a page builder merchants use for their storefronts.",
     "The first year I measured myself by how much I shipped. By the third I measured myself by how little of it came back. Somewhere in between I stopped trusting my instincts about why something was slow or broken and started checking, which is a less flattering way to work but a much more reliable one. That is the habit I kept.",
-    "Since November 2025 I have been at <a href=\"https://sending.ac\">sending.ac</a>, building the product from the ground up with a small team of genuinely good engineers. It is the first time I have worked at real startup pace: short sprints, decisions made in a day, the whole surface up for grabs. I take features from nothing to working and I am the one paged when they break, which has quietly changed how I write everything.",
+    "Since September 2025 I have been at <a href=\"https://sending.ac\">sending.ac</a>, building the product from the ground up with a small team of genuinely good engineers. It is the first time I have worked at real startup pace: short sprints, decisions made in a day, the whole surface up for grabs. I take features from nothing to working and I am the one paged when they break, which has quietly changed how I write everything.",
     "In my free time I play with Rust, mostly by sending small patches to <a href=\"https://github.com/tensorzero/tensorzero\">tensorzero</a> and <a href=\"https://github.com/nextest-rs/nextest\">nextest</a>."
   ]
 }
