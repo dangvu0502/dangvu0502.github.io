@@ -2,19 +2,19 @@
   {
     "name": "Vectra",
     "description": "Build and query your own knowledge base in TypeScript, plus an MCP server for any client.",
-    "topics": ["TypeScript", "RAG"],
+    "topics": [
+      "TypeScript",
+      "RAG"
+    ],
     "link": "https://github.com/theVuArena/vectra"
   },
   {
     "name": "UI Annotation Tool",
     "description": "Create, annotate and evaluate UI element datasets for ML. Gemini-assisted labeling.",
-    "topics": ["TS", "Python"],
+    "topics": [
+      "TS",
+      "Python"
+    ],
     "link": "https://github.com/dangvu0502/homework"
-  },
-  {
-    "name": "This site",
-    "description": "Next.js static export, 165 KB, Lighthouse 100. Rebuilt from a Rust/WASM version.",
-    "topics": ["Next.js 16"],
-    "link": "https://github.com/dangvu0502/dangvu0502.github.io"
   }
 ]
