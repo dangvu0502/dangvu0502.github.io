@@ -18,48 +18,48 @@
     "updated_at": "2025-12-26T23:26:41Z"
   },
   {
-    "repository": "tensorzero/tensorzero",
-    "pr_number": "3815",
-    "link": "https://github.com/tensorzero/tensorzero/pull/3815",
-    "title": "Log INFO when dynamic tools not in allowed_tools",
-    "state": "closed",
-    "created_at": "2025-10-04T15:37:55Z",
-    "updated_at": "2025-10-05T17:41:27Z"
+    "repository": "99techteam/code-challenge",
+    "pr_number": "125",
+    "link": "https://github.com/99techteam/code-challenge/pull/125",
+    "title": "[FE] - Code Challenge - Vu Hai Dang",
+    "state": "open",
+    "created_at": "2025-08-05T08:53:03Z",
+    "updated_at": "2025-08-06T02:03:59Z"
   },
   {
-    "repository": "tensorzero/tensorzero",
-    "pr_number": "3714",
-    "link": "https://github.com/tensorzero/tensorzero/pull/3714",
-    "title": "Only require max_tokens when token rate limits apply",
+    "repository": "RabdeepKaur/RejectMe",
+    "pr_number": "2",
+    "link": "https://github.com/RabdeepKaur/RejectMe/pull/2",
+    "title": "refactor(email): migrate to WebLLM and clean up deprecated code",
     "state": "closed",
-    "created_at": "2025-09-26T19:23:09Z",
-    "updated_at": "2025-10-02T15:18:52Z"
+    "created_at": "2025-08-03T08:03:49Z",
+    "updated_at": "2025-08-15T14:45:12Z"
   },
   {
-    "repository": "tensorzero/tensorzero",
-    "pr_number": "3625",
-    "link": "https://github.com/tensorzero/tensorzero/pull/3625",
-    "title": "Make ChatCompletion, BestOfN, MixtureOfN, ChainOfThought config fields private with getters",
+    "repository": "dangvu0502/homework",
+    "pr_number": "6",
+    "link": "https://github.com/dangvu0502/homework/pull/6",
+    "title": "Implemented batch processing workflow for UI analysis:",
     "state": "closed",
-    "created_at": "2025-09-23T09:41:53Z",
-    "updated_at": "2025-09-25T09:47:23Z"
+    "created_at": "2025-07-23T10:31:16Z",
+    "updated_at": "2025-07-23T15:26:01Z"
   },
   {
-    "repository": "tensorzero/tensorzero",
-    "pr_number": "3622",
-    "link": "https://github.com/tensorzero/tensorzero/pull/3622",
-    "title": "Add maxHeight prop to InputSnippet component",
+    "repository": "dangvu0502/homework",
+    "pr_number": "5",
+    "link": "https://github.com/dangvu0502/homework/pull/5",
+    "title": "Major UI improvements and refactoring",
     "state": "closed",
-    "created_at": "2025-09-23T02:51:58Z",
-    "updated_at": "2025-09-25T15:12:06Z"
+    "created_at": "2025-07-21T10:31:52Z",
+    "updated_at": "2025-07-21T13:46:37Z"
   },
   {
-    "repository": "tensorzero/tensorzero",
-    "pr_number": "3608",
-    "link": "https://github.com/tensorzero/tensorzero/pull/3608",
-    "title": "Replace hardcoded default function string with constant",
+    "repository": "dangvu0502/homework",
+    "pr_number": "4",
+    "link": "https://github.com/dangvu0502/homework/pull/4",
+    "title": "Implement multi-image annotation workflow and state management",
     "state": "closed",
-    "created_at": "2025-09-22T02:55:33Z",
-    "updated_at": "2025-09-25T09:47:27Z"
+    "created_at": "2025-07-21T07:49:36Z",
+    "updated_at": "2025-07-21T13:46:56Z"
   }
 ]

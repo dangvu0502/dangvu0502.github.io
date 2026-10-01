@@ -2,7 +2,7 @@
   {
     "name": "dangvu0502/dangvu0502.github.io",
     "description": "This portfolio. Next.js static export on GitHub Pages; previous version was Rust/Dioxus compiled to WASM.",
-    "topics": ["Next.js", "TypeScript", "Tailwind"],
+    "topics": [],
     "link": "https://github.com/dangvu0502/dangvu0502.github.io"
   },
   {
@@ -14,19 +14,19 @@
   {
     "name": "dangvu0502/ebay-sync",
     "description": "Syncs product listings and inventory with the eBay API.",
-    "topics": ["TypeScript", "eBay API"],
+    "topics": [],
     "link": "https://github.com/dangvu0502/ebay-sync"
   },
   {
     "name": "dangvu0502/book-my-spot",
     "description": "Booking app for reserving spots with availability and scheduling.",
-    "topics": ["TypeScript", "Full Stack"],
+    "topics": [],
     "link": "https://github.com/dangvu0502/book-my-spot"
   },
   {
     "name": "dangvu0502/homework-pinecone",
     "description": "Vector search experiment using Pinecone for semantic retrieval.",
-    "topics": ["Python", "Pinecone", "RAG"],
+    "topics": [],
     "link": "https://github.com/dangvu0502/homework-pinecone"
   }
 ]
