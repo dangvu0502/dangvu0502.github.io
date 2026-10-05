@@ -8,15 +8,6 @@
     "link": "https://github.com/dangvu0502/poses"
   },
   {
-    "name": "Vectra",
-    "description": "Build and query your own knowledge base in TypeScript, plus an MCP server for any client.",
-    "topics": [
-      "TypeScript",
-      "RAG"
-    ],
-    "link": "https://github.com/theVuArena/vectra"
-  },
-  {
     "name": "UI Annotation Tool",
     "description": "Create, annotate and evaluate UI element datasets for ML. Gemini-assisted labeling.",
     "topics": [
@@ -24,5 +15,14 @@
       "Python"
     ],
     "link": "https://github.com/dangvu0502/homework"
+  },
+  {
+    "name": "Vectra",
+    "description": "Build and query your own knowledge base in TypeScript, plus an MCP server for any client.",
+    "topics": [
+      "TypeScript",
+      "RAG"
+    ],
+    "link": "https://github.com/theVuArena/vectra"
   }
 ]
