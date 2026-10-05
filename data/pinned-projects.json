@@ -1,5 +1,14 @@
 [
   {
+    "name": "Poses",
+    "description": "Data pipeline that turns scattered photo poses into a clean, named pose library, each pose with a neutral mannequin and a fresh photo.",
+    "topics": [
+      "Data pipeline",
+      "Computer vision"
+    ],
+    "link": "https://github.com/dangvu0502/poses"
+  },
+  {
     "name": "Vectra",
     "description": "Build and query your own knowledge base in TypeScript, plus an MCP server for any client.",
     "topics": [
