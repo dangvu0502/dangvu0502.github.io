@@ -6,6 +6,12 @@
     "link": "https://github.com/dangvu0502/dangvu0502.github.io"
   },
   {
+    "name": "dangvu0502/poses",
+    "description": "Finds trending photo poses and suggests the ones that fit where you stand.",
+    "topics": [],
+    "link": "https://github.com/dangvu0502/poses"
+  },
+  {
     "name": "dangvu0502/vps",
     "description": null,
     "topics": [],
@@ -22,11 +28,5 @@
     "description": "Booking app for reserving spots with availability and scheduling.",
     "topics": [],
     "link": "https://github.com/dangvu0502/book-my-spot"
-  },
-  {
-    "name": "dangvu0502/homework-pinecone",
-    "description": "Vector search experiment using Pinecone for semantic retrieval.",
-    "topics": [],
-    "link": "https://github.com/dangvu0502/homework-pinecone"
   }
 ]
