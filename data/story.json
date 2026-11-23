@@ -5,10 +5,9 @@
   "github": "https://github.com/dangvu0502",
   "linkedin": "https://www.linkedin.com/in/%C4%91%C4%83ng-v%C5%A9-a43920243/",
   "paragraphs": [
-    "I'm a software engineer. I work mostly in TypeScript, React, Next.js and Node, and I like taking a feature from nothing to something people actually use.",
-    "My journey started at FPT Software as a trainee. That's where I learned React and got my first real look at how software is built inside a company.",
-    "From there I moved to <a href=\"https://bravebits.co/pages/product\">Bravebits</a> and spent my time on <a href=\"https://pagefly.io\">PageFly</a>, a page builder merchants use for their Shopify storefronts. I worked on both the frontend and the backend. I built tools that turn a screenshot or a Figma design into a real page, moved the editor to a more flexible layout system, and made the app faster so it could meet Shopify's Built for Shopify standard.",
-    "Then I moved to <a href=\"https://sending.ac\">sending.ac</a>, where I helped build the product from the ground up with a small team. I connected it to several email-sending tools so mailbox activity syncs every day, automated buying domains across more than one registrar, and built the new dashboard that replaced the old one.",
+    "My first job in software was as a trainee at FPT Software. It was the first time I built real software, and I did it inside a company that was already huge. I was only there a few months, but it was fun. Then I moved on to something new.",
+    "That's how I ended up at <a href=\"https://bravebits.co/pages/product\">Bravebits</a>, working on <a href=\"https://pagefly.io\">PageFly</a>, a page builder Shopify merchants use to build their stores. I worked on both the frontend and the backend. I built a tool that turns a screenshot or a Figma design into a working page, and I made the app faster so it could pass Shopify's own quality check.",
+    "PageFly was already a big product when I joined. <a href=\"https://sending.ac\">sending.ac</a> was the opposite: a small team building a product from nothing. No old code, no one to hand things off to. I built features from the first line to the day they went live, and when they broke, I was the one who fixed them.",
     "If you're working on something I could help with, I'd be glad to hear from you."
   ]
 }
