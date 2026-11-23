@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   icons: { icon: "/avatar.jpg" },
   openGraph: { title: "Dang Vu", description: DESC, url: SITE, siteName: "Dang Vu", images: [{ url: "/avatar.jpg", width: 160, height: 160 }], type: "website" },
   twitter: { card: "summary", images: ["/avatar.jpg"] },
+  verification: { other: { "ahrefs-site-verification": "db54ca839724843dfb3467f2d12d8edf24571f47d1570ecd82cdae86e30abd29" } },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
