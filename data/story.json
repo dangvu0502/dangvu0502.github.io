@@ -5,7 +5,7 @@
   "github": "https://github.com/dangvu0502",
   "linkedin": "https://www.linkedin.com/in/%C4%91%C4%83ng-v%C5%A9-a43920243/",
   "paragraphs": [
-    "I started as a developer trainee at FPT Software, where I learned that most of software is other people. Then I joined <a href=\"https://bravebits.co/pages/product\">Bravebits</a> and worked on <a href=\"https://pagefly.io\">PageFly</a>, a page builder merchants use for their storefronts.",
+    "I started as a developer trainee at FPT Software, where I learned that most of software is other people. Then I joined <a href=\"https://bravebits.co/pages/product\">Bravebits</a> and worked on <a href=\"https://pagefly.io\">PageFly</a>, a page builder merchants use for their storefronts. I worked on both the frontend and the backend. I built tools that turn a screenshot or a Figma design into a real page, and I spent a lot of time making the app faster so it could meet Shopify's own quality bar.",
     "Next came <a href=\"https://sending.ac\">sending.ac</a>, where a small team of good engineers built the product from the ground up. It was my first time at real startup pace: short sprints, decisions made in a day, everything up for grabs. I took features from nothing to working, and I was the one paged when they broke. That quietly changed how I write everything.",
     "So that's how I work now: think about the people, and write code I'd be fine getting paged for.",
     "In my free time I play with Rust, mostly by sending small patches to <a href=\"https://github.com/tensorzero/tensorzero\">tensorzero</a> and <a href=\"https://github.com/nextest-rs/nextest\">nextest</a>."
