@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 const SITE = "https://dangvu0502.github.io";
-const DESC = "Fullstack engineer in Hanoi. TypeScript, React, Next.js, Node. PageFly performance work for 200k+ Shopify stores, now billing and SSO at sending.ac.";
+const DESC = "Fullstack engineer in Hanoi. TypeScript, React, Next.js, Node. PageFly performance work for 200k+ Shopify stores, then billing and SSO at sending.ac.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
